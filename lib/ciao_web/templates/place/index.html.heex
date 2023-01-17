@@ -1,0 +1,16 @@
+<.form for={@new_changeset} let={f}  phx-submit={"create_place"} >
+    <%= label f, :name %>
+    <%= text_input f, :name %>
+    <%= label f, :description %>
+    <%= text_input f, :description %>
+    <%= label f, :slug %>
+    <%= text_input f, :slug %>
+    <%= submit "Create" %>
+</.form>
+
+<ul>
+    <%= for place <- @places do %>
+        <li><%= place.name %></li>
+    <% end %>
+</ul>
+
