@@ -1,0 +1,261 @@
+@use 'media_queries' as media;
+
+.f-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.f-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-1 {
+  order: 1;
+}
+
+.order-2 {
+  order: 2;
+}
+
+.order-md-1 {
+  @include media.media-md {
+    order: 1;
+  }
+}
+
+.order-md-2 {
+  @include media.media-md {
+    order: 2;
+  }
+}
+
+$column: calc(100% / 12);
+$columns: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+
+@mixin columns($size_prefix: '-') {
+  @each $value in $columns {
+    &#{$size_prefix}#{$value} {
+      flex: 0 0 auto;
+      width: calc(#{$column} * #{$value});
+    }
+  }
+}
+
+.col {
+  @include columns;
+}
+
+@include media.media-xs {
+  .col-xs {
+    @include columns;
+  }
+}
+
+@include  media.media-sm {
+  .col-sm {
+    @include columns;
+  }
+}
+
+@include media.media-md {
+  .col-md {
+    @include columns;
+  }
+}
+
+@include media.media-lg {
+  .col-lg {
+    @include columns;
+  }
+}
+
+@include media.media-xl {
+  .col-xl {
+    @include columns();
+  }
+}
+
+@include media.media-xx {
+  .col-xx {
+    @include columns;
+  }
+}
+
+// Flex Alignments
+
+.self-start {
+  align-self: flex-start;
+}
+
+.self-center {
+  align-self: center;
+}
+
+.self-center-md {
+  @include media.media-md {
+    align-self: center;
+  }
+}
+
+.self-end {
+  align-self: flex-end;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-start {
+  align-items: flex-start;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+// Positioning
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+// Margins and Padding
+$breakpoints: ('', 'sm', 'md', 'lg', 'xl');
+$sizes: (0.25rem, 0.5rem, 0.75rem, 1rem, 1.25rem, 1.5rem, 3rem, 0);
+$i: 1;
+
+@function name($i, $value) {
+  $name: '';
+  @if $value != 0 {
+    $name: '-#{$i}';
+  }
+
+  @return $name;
+}
+
+@mixin sizing($type, $prefix: '') {
+  @each $value in $sizes {
+    &#{$prefix}#{name($i, $value)} {
+      #{$type}: #{$value};
+    }
+
+    @include media.media-sm {
+      &#{$prefix}-sm#{name($i, $value)} {
+        #{$type}: #{$value};
+      }
+    }
+
+    @include media.media-md {
+      &#{$prefix}-md#{name($i, $value)} {
+        #{$type}: #{$value};
+      }
+    }
+
+    @include media.media-lg {
+      &#{$prefix}-lg#{name($i, $value)} {
+        #{$type}: #{$value};
+      }
+    }
+
+    @include media.media-xl {
+      &#{$prefix}-xl#{name($i, $value)} {
+        #{$type}: #{$value};
+      }
+    }
+    $i: $i + 1;
+  }
+}
+
+@mixin sizing-axis($type, $axis1, $axis2) {
+  @each $value in $sizes {
+    &-#{$i} {
+      #{$type}-#{$axis1}: #{$value};
+      #{$type}-#{$axis2}: #{$value};
+    }
+
+    $i: $i + 1;
+  }
+}
+
+.p {
+  @include sizing('padding');
+  @include sizing('padding-top', 't');
+  @include sizing('padding-right', 'r');
+  @include sizing('padding-bottom', 'b');
+  @include sizing('padding-left', 'l');
+}
+
+.px {
+  @include sizing-axis('padding', 'top', 'bottom');
+}
+
+.py {
+  @include sizing-axis('padding', 'right', 'left');
+}
+
+.m {
+  @include sizing('margin');
+  @include sizing('margin-top', 't');
+  @include sizing('margin-right', 'r');
+  @include sizing('margin-bottom', 'b');
+  @include sizing('margin-left', 'l');
+}
+
+.mx {
+  @include sizing-axis('margin', 'top', 'bottom');
+}
+
+.my {
+  @include sizing-axis('margin', 'right', 'left');
+}
+
+[style*='--mt'] {
+	margin-top: var(--mt);
+}
+
+[style*='--mb'] {
+	margin-bottom: var(--mb);
+}
+
+
+[style*='--ml'] {
+	margin-left: var(--ml);
+}
+
+@include media.media-md {
+  [style*='--pr-md'] {
+  	padding-right: var(--pr-md);
+   }
+}
+
+[style*='--pt'] {
+	padding-top: var(--pt);
+}
+
+[style*='--pb'] {
+	padding-bottom: var(--pb);
+}

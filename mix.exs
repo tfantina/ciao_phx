@@ -34,6 +34,7 @@ defmodule Ciao.MixProject do
   defp deps do
     [
       {:bcrypt_elixir, "~> 3.0"},
+      {:dart_sass, "~> 0.5", runtime: Mix.env() == :dev},
       {:phoenix, "~> 1.6.6"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
