@@ -21,4 +21,11 @@ defmodule Ciao.Places.Place do
     |> validate_required(~w[name]a)
     |> unique_constraint(:slug)
   end
+
+  def update_changeset(place, params \\ %{}) do
+    place
+    |> cast(params, ~w[name description public slug]a)
+    |> validate_required(~w[name]a)
+    |> unique_constraint(:slug)
+  end
 end

@@ -32,6 +32,7 @@ defmodule CiaoWeb.Router do
     pipe_through [:browser, :live_pipeline]
 
     live "/places", PlaceLive.Index
+    live "/places/:id_or_slug", PlaceLive.Show
   end
 
   # Other scopes may use custom stacks.

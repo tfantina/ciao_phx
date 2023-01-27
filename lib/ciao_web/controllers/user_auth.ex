@@ -2,7 +2,7 @@ defmodule CiaoWeb.UserAuth do
   import Plug.Conn
   import Phoenix.Controller
 
-  alias Ciao.Accounts
+  alias Ciao.{Accounts, Places}
   alias CiaoWeb.Router.Helpers, as: Routes
 
   # Make the remember me cookie valid for 60 days.

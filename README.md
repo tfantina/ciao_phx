@@ -17,3 +17,12 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+  
+## Building Fast 
+
+My hope is to get this done in about two months (working on it for about 4 hours a week😬).
+As such I'm not writing tests and documentation will be sparse.  This is an MVP, I'm not 
+getting paid.
+There are lots of code smells, some I know, some I will catch when I introduce Credo, tests, etc.
+
+For now when I write/find something to fix I will tag it with #Refactor:
