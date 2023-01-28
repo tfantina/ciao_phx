@@ -11,7 +11,7 @@ defmodule Ciao.Posts.Post do
     belongs_to :place, Place
     belongs_to :user, User
 
-    has_many :comments, Comment
+    has_many :comments, Comment, preload_order: [desc: :inserted_at]
 
     timestamps()
   end

@@ -1,23 +1,20 @@
-<%= if @changeset do %>
-    <.form for={@changeset} let={f} phx-submit="create_post" >
-        <%= hidden_input f, :place_id, value: @place.id %>
-        <%= label f, :body, "Text" %>
-        <%= text_input f, :body %>
-        
-        
-        <%= submit "Post" %>
-    </.form>
-<% end %>
+<div class="row">
+    <div class="col-2" id="info">
+    </div>
+    <div class="col-8 d-flex f-col" id="stream">
+        <%= if @changeset do %>
+            <.form for={@changeset} let={f} phx-submit="create_post" >
+                <%= hidden_input f, :place_id, value: @place.id %>
+                <%= label f, :body, "Text" %>
+                <%= text_input f, :body %>
+                <%= submit "Post" %>
+            </.form>
+        <% end %>
 
-<ul>
-    <%= for post <- @posts do %>
-        <li><%= post.body %>
-        <p>
-        <%= post.user.email %>
-        <br />
-        <%= Timex.from_now(post.inserted_at) %>
-        </p>
-        </li>
-        
-    <%= end %>
-</ul>
+        <%= for post <- @posts do %>
+            <.live_component module={PostComponent} id={"post-#{post.id}"} post={post} user={@user}/>
+        <%= end %>
+    </div>
+    <div class="col-2" id="timeline">
+    </div>
+</div>

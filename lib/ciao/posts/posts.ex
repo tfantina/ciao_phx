@@ -5,6 +5,14 @@ defmodule Ciao.Posts do
   import Ciao.EctoSupport
   import Ecto.Query
 
+  use Ciao.Query, for: Post
+
+  def base_query do
+    Post
+    |> from(as: :post)
+    |> preload([:comments, :user])
+  end
+
   def fetch_all_for_place(place) do
     Post
     |> where([p], p.place_id == ^place.id)

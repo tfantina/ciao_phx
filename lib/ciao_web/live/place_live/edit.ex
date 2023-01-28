@@ -18,6 +18,6 @@ defmodule CiaoWeb.PlacesLive.Edit do
     socket
     |> assign(:place_changeset, Place.update_changeset(place))
 
-    # |> assign(:users, )
+    # p|> assign(:users, )
   end
 end
