@@ -2,11 +2,16 @@ defmodule Ciao.Accounts do
   @moduledoc """
   The Accounts context.
   """
-
-  import Ecto.Query, warn: false
+  alias Ecto.{Multi, UUID}
   alias Ciao.Repo
-
   alias Ciao.Accounts.{User, UserToken, UserNotifier}
+  alias Ciao.Images
+  alias Ciao.Images.ProfilePics
+
+  import Ciao.EctoSupport
+  import Ecto.Query, warn: false
+
+  @multi Multi.new()
 
   ## Database getters
 
@@ -232,10 +237,10 @@ defmodule Ciao.Accounts do
   def get_user_by_session_token(token) do
     {:ok, query} = UserToken.verify_session_token_query(token)
 
-    # REFACTOR: this is two queries 
+    # REFACTOR: this is two queries
     query
     |> Repo.one()
-    |> Repo.preload(:user_relations)
+    |> Repo.preload([:user_relations, :profile_pic])
   end
 
   @doc """
@@ -353,5 +358,20 @@ defmodule Ciao.Accounts do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
+  end
+
+  def upload_profile_pic(user, %{size: size, data: data}) do
+    IO.inspect(data, label: "DATA")
+
+    @multi
+    |> put_multi_value(:key, UUID.generate())
+    |> Multi.run(:upload_photo, fn _, %{key: key} -> ProfilePics.upload(key, data) end)
+    |> Multi.run(:image, fn _, %{key: key} ->
+      Images.create_image(key, user, size, :user)
+    end)
+    |> Multi.update(:update_user, fn %{image: image} ->
+      User.profile_pic_changeset(user, image)
+    end)
+    |> Repo.transaction()
   end
 end

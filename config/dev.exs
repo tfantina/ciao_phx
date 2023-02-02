@@ -77,3 +77,8 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :ciao, Ciao.Images.ProfilePics,
+  provider: Ciao.Storage.LocalProvider,
+  root: Path.expand(Path.join(__DIR__, "../priv/images/profiles")),
+  url_prefix: "/profile_pics"

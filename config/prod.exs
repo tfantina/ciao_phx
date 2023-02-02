@@ -47,3 +47,9 @@ config :logger, level: :info
 #       force_ssl: [hsts: true]
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
+config :ciao, Ciao.Images.ProfilePics,
+  provider: Ciao.Storage.S3Provider,
+  region: System.get_env("S3_REGION"),
+  bucket: System.get_env("S3_BUCKET"),
+  access_key_id: :instance_role,
+  secrtet_access_key: :instance_role

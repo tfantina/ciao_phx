@@ -33,6 +33,7 @@ defmodule CiaoWeb.Router do
 
     live "/places", PlaceLive.Index
     live "/places/:id_or_slug", PlaceLive.Show
+    live "/account", AccountLive.Index
   end
 
   # Other scopes may use custom stacks.

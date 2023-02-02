@@ -8,4 +8,7 @@ defmodule Ciao do
   """
   defmacro ok(term), do: quote(do: {:ok, unquote(term)})
   defmacro noreply(term), do: quote(do: {:noreply, unquote(term)})
+  defmacro error(term), do: quote(do: {:error, unquote(term)})
+
+  def unsafe_name?(val) when is_binary(val), do: String.match?(val, ~r/(\.\.)|(\/)|\/|(%)/)
 end
