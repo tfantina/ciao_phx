@@ -1,0 +1,11 @@
+<.form for={@image_changeset} let={f} phx-change={"update_image"} phx-submit={"save_image"}>
+    <div class="profile__pic">
+        <%= get_profile_pic(@photo) %>
+      </div>
+    <%= live_file_input @uploads.profile_pic %>
+    <%= for {_ref, err} <- @uploads.profile_pic.errors do  %>
+        <div class="error">
+        </div>
+    <% end %>
+    <%= submit "Word", class: "submit"%>
+</.form>

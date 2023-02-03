@@ -25,6 +25,9 @@ ciao-*.tar
 # Ignore assets that are produced by build tools.
 /priv/static/assets/
 
+# Ignore local images
+/priv/images/
+
 # Ignore digested assets cache.
 /priv/static/cache_manifest.json
 

@@ -1,0 +1,37 @@
+@use 'cardinal/media_queries';
+@use 'cardinal/mixins' as m;
+@use 'cardinal/page';
+@use 'cardinal/grid';
+@use 'cardinal/positioning';
+@use 'cardinal/padding';
+@use 'cardinal/flex';
+@use 'cardinal/views';
+
+.col,
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
+  display: flex;
+  @include m.justify-content(center);
+  box-sizing: border-box;
+  @include m.pad-y(0.5rem);
+  @include m.pad-x(0.5rem);
+}
+
+.section {
+  @include m.width;
+  @include m.center;
+  @include m.max-width(1200px);
+  background-color: rgb(240, 240, 240);
+  padding: 1rem;
+  margin: 0.5rem;
+}

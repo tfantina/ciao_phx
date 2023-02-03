@@ -1,0 +1,57 @@
+@use 'mixins' as m;
+
+.pad {
+  @include m.pad;
+}
+
+.pad-l {
+  @include m.pad-l;
+}
+
+.pad-r {
+  @include m.pad-r;
+}
+
+.pad-t {
+  @include m.pad-t;
+}
+
+.pad-b {
+  @include m.pad-b;
+}
+
+.pad-x {
+  @include m.pad-x;
+}
+
+.pad-y {
+  @include m.pad-y;
+}
+
+.margin {
+  @include m.margin;
+}
+
+.margin-l {
+  @include m.margin-l;
+}
+
+.margin-r {
+  @include m.margin-r;
+}
+
+.margin-t {
+  @include m.margin-t;
+}
+
+.margin-b {
+  @include m.margin-b;
+}
+
+.margin-x {
+  @include m.margin-x;
+}
+
+.margin-y {
+  @include m.margin-y;
+}

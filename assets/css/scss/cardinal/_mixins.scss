@@ -1,0 +1,112 @@
+/* Mixins is the central repository for all @mixins used throughout Cardinal
+ Having them in a seperate file makes it easy to view mixins and import them
+ into your project's custom CSS components */
+
+/* Grid */
+
+@mixin grid($columns: 12) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+}
+
+/* Positioning */
+@mixin center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Sizing */
+@mixin width($width: 90vw) {
+  width: $width;
+}
+
+@mixin min-width($width: 100%) {
+  min-width: $width;
+}
+
+@mixin max-width($width: 100%) {
+  max-width: $width;
+}
+
+@mixin height($height: 90vw) {
+  height: $height;
+}
+
+@mixin min-height($height: 100%) {
+  min-height: $height;
+}
+
+@mixin max-height($height: 100%) {
+  max-height: $height;
+}
+
+/* Flex positioning */
+
+@mixin justify-content($position) {
+  justify-content: $position;
+}
+
+@mixin align-items($position) {
+  align-items: $position;
+}
+
+/* Padding */
+@mixin pad($amt: 0.25rem) {
+  padding: $amt;
+}
+
+@mixin pad-l($amt: 0.25rem) {
+  padding-left: $amt;
+}
+
+@mixin pad-r($amt: 0.25rem) {
+  padding-right: $amt;
+}
+
+@mixin pad-t($amt: 0.25rem) {
+  padding-top: $amt;
+}
+
+@mixin pad-b($amt: 0.25rem) {
+  padding-bottom: $amt;
+}
+
+@mixin pad-x($amt: 0.25rem) {
+  padding-left: $amt;
+  padding-right: $amt;
+}
+
+@mixin pad-y($amt: 0.25rem) {
+  padding-top: $amt;
+  padding-bottom: $amt;
+}
+
+@mixin margin($amt: 0.25rem) {
+  margin: $amt;
+}
+
+@mixin margin-l($amt: 0.25rem) {
+  margin-left: $amt;
+}
+
+@mixin margin-r($amt: 0.25rem) {
+  margin-right: $amt;
+}
+
+@mixin margin-t($amt: 0.25rem) {
+  margin-top: $amt;
+}
+
+@mixin margin-b($amt: 0.25rem) {
+  margin-bottom: $amt;
+}
+
+@mixin margin-x($amt: 0.25rem) {
+  margin-left: $amt;
+  margin-right: $amt;
+}
+
+@mixin margin-y($amt: 0.25rem) {
+  margin-top: $amt;
+  margin-bottom: $amt;
+}

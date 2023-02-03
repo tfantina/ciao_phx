@@ -1,7 +1,8 @@
 defmodule Ciao.Accounts.User do
   alias Ciao.Places.UserRelation
-  use Ciao.Schema
+  alias Ciao.Images.Image
   import Ecto.Changeset
+  use Ciao.Schema
 
   schema "users" do
     field(:email, :string)
@@ -9,6 +10,7 @@ defmodule Ciao.Accounts.User do
     field(:hashed_password, :string, redact: true)
     field(:confirmed_at, :naive_datetime)
 
+    has_one :profile_pic, Image, foreign_key: :id
     has_many :user_relations, UserRelation
 
     timestamps()
@@ -139,5 +141,11 @@ defmodule Ciao.Accounts.User do
     else
       add_error(changeset, :current_password, "is not valid")
     end
+  end
+
+  def profile_pic_changeset(user, image \\ %{}) do
+    user
+    |> change()
+    |> put_assoc(:profile_pic, image)
   end
 end

@@ -1,0 +1,50 @@
+@use 'mixins' as m;
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.justify-content-center {
+  @include m.justify-content(center);
+}
+
+.justify-content-start {
+  @include m.justify-content(flex-start);
+}
+
+.justify-content-between {
+  @include m.justify-content(space-between);
+}
+
+.justify-content-end {
+  @include m.justify-content(flex-end);
+}
+
+.align-items-between {
+  @include m.align-items(space-between);
+}
+
+.align-items-center {
+  @include m.align-items(center);
+}
+
+.align-items-start {
+  @include m.align-items(flex-start);
+}
+
+.align-items-end {
+  @include m.align-items(flex-end);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.object-cover {
+  object-fit: cover;
+}

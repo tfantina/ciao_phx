@@ -1,0 +1,130 @@
+$column: calc(100% / 12);
+$columns: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+$breakpoints: ('xs', 'sm', 'md', 'lg', 'xl', 'xx');
+@use 'mixins' as m;
+@use 'media_queries' as media;
+.container {
+  @include m.width(100vw);
+  @include m.center;
+  @include m.max-width(1100px);
+
+  @include media.media-sm {
+    @include m.width(95vw);
+  }
+
+  @include media.media-md {
+    @include m.width();
+  }
+}
+
+@include media.media-md {
+  .container-md {
+    @include m.width();
+    @include m.center;
+    @include m.max-width(1100px);
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@mixin columns($size_prefix: '-') {
+  @each $value in $columns {
+    &#{$size_prefix}#{$value} {
+      flex: 0 0 auto;
+      width: calc(#{$column} * #{$value});
+    }
+  }
+}
+
+.col {
+  @include columns;
+}
+
+@include media.media-xs {
+  .col-sx {
+    @include columns;
+  }
+}
+
+@include media.media-sm {
+  .col-sm {
+    @include columns;
+  }
+}
+
+@include media.media-md {
+  .col-md {
+    @include columns;
+  }
+}
+
+@include media.media-lg {
+  .col-lg {
+    @include columns;
+  }
+}
+
+@include media.media-xl {
+  .col-xl {
+    @include columns;
+  }
+}
+
+@include media.media-xx {
+  .col-xx {
+    @include columns;
+  }
+}
+
+/* Flex Ordering */
+
+@mixin orders {
+  @each $value in $columns {
+    &-#{$value} {
+      order: $value;
+    }
+  }
+}
+
+.order {
+  @include orders;
+}
+
+@include media.media-xs {
+  .order-xs {
+    @include orders;
+  }
+}
+
+@include media.media-sm {
+  .order-sm {
+    @include orders;
+  }
+}
+
+@include media.media-md {
+  .order-md {
+    @include orders;
+  }
+}
+
+@include media.media-lg {
+  .order-lg {
+    @include orders;
+  }
+}
+
+@include media.media-xl {
+  .order-xl {
+    @include orders;
+  }
+}
+
+@include media.media-xx {
+  .order-xx {
+    @include orders;
+  }
+}

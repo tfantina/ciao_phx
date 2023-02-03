@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&display=swap');
+
+$default_font: 'Montserrat', 'Helvetica Neue', 'Arial', sans-serif;
+$default_font_size: 18px;
+$lg_font_size: 20px;
+$info_font_size: 16px;
+$header_1_font_size: 24px;
+$header_2_font_size: 20px;
+$header_3_font_size: 18px;
+
+$primary: #1ca060;
+$primary-accent--lite: #eafbf5;
+$secondary-accent--lite: #eaf7fb;
+$tertiary-accent: #fafbfb;
+
+
+
+body {
+    font-family: $default_font;
+    font-size: $default_font_size;
+    font-weight: 400;
+}

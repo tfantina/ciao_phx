@@ -10,7 +10,8 @@
 
 <ul>
     <%= for place <- @places do %>
-        <li><%= place.name %></li>
+        <li>
+          <%= link place.name, to: Routes.live_path(@socket, CiaoWeb.PlaceLive.Show, place.id) %>
+        </li>
     <% end %>
 </ul>
-
