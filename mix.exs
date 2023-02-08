@@ -42,6 +42,8 @@ defmodule Ciao.MixProject do
       {:ex_aws_s3, "~> 2.0"},
       {:floki, ">= 0.30.0", only: :test},
       {:hackney, "~> 1.9"},
+      {:image, "~> 0.21.0"},
+      {:oban, "~> 2.14"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},

@@ -42,7 +42,6 @@ defmodule CiaoWeb.PlaceLive.Show do
     |> Posts.create_post(params)
     |> case do
       {:ok, %Post{} = post} ->
-        IO.inspect(post, label: "WOW")
         posts = [post] ++ socket.assigns.posts
 
         socket

@@ -15,9 +15,10 @@ defmodule Ciao.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Ciao.PubSub},
       # Start the Endpoint (http/https)
-      CiaoWeb.Endpoint
+      CiaoWeb.Endpoint,
       # Start a worker by calling: Ciao.Worker.start_link(arg)
       # {Ciao.Worker, arg}
+      {Oban, Application.fetch_env!(:ciao, Oban)}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -4,6 +4,8 @@ defmodule Ciao.Storage.S3Provider do
   alias Ciao.Storage.Provider
   import Ciao
 
+  require Logger
+
   @behaviour Provider
 
   @impl true
@@ -13,6 +15,8 @@ defmodule Ciao.Storage.S3Provider do
 
   @impl true
   def url(%{bucket: bucket} = config, key, opts \\ []) do
+    Logger.info(label: "OK?")
+
     if Keyword.get(opts, :static_url, false) do
       "https://ciaoplace.com/images"
       |> Path.join(key)

@@ -1,6 +1,6 @@
 defmodule Ciao.Accounts.User do
   alias Ciao.Places.UserRelation
-  alias Ciao.Images.Image
+  alias Ciao.Images.ImageRecord
   import Ecto.Changeset
   use Ciao.Schema
 
@@ -10,8 +10,8 @@ defmodule Ciao.Accounts.User do
     field(:hashed_password, :string, redact: true)
     field(:confirmed_at, :naive_datetime)
 
-    has_one :profile_pic, Image, foreign_key: :id
-    has_many :user_relations, UserRelation
+    has_one(:profile_pic, ImageRecord, foreign_key: :id, on_replace: :delete)
+    has_many(:user_relations, UserRelation)
 
     timestamps()
   end

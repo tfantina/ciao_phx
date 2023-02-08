@@ -3,6 +3,7 @@ defmodule Ciao.Storage.LocalProvider do
   alias Ciao.Storage.Provider
 
   import Ciao
+  require Logger
 
   @behaviour Provider
   @impl true
@@ -15,22 +16,21 @@ defmodule Ciao.Storage.LocalProvider do
   end
 
   @impl true
-  def url(%{url_prefix: url_prefix}, key, _opts) do
+  def url(%{url_prefix: url_prefix}, key, _opts \\ []) do
     with :ok <- validate_key(key) do
       ok({:local, Path.join(url_prefix, key)})
+    else
+      _ -> {:label, :POKE!}
     end
   end
 
   @impl true
   def upload(%{root: root}, key, io, opts \\ []) do
     with :ok <- validate_key(key),
-         IO.inspect(label: "WORD"),
          path <- Path.join(root, key),
-         IO.inspect(label: "woot"),
          dir <- Path.dirname(path),
-         IO.inspect(label: "dirpath"),
          :ok <- File.mkdir_p(dir),
-         File.write(path, io, opts) do
+         :ok <- File.write!(path, io, opts) do
       {:ok, key}
     else
       {:error, _} = error -> error

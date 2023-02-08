@@ -5,7 +5,6 @@ defmodule Ciao.Accounts do
   alias Ecto.{Multi, UUID}
   alias Ciao.Repo
   alias Ciao.Accounts.{User, UserToken, UserNotifier}
-  alias Ciao.Images
   alias Ciao.Images.ProfilePics
 
   import Ciao.EctoSupport
@@ -361,13 +360,13 @@ defmodule Ciao.Accounts do
   end
 
   def upload_profile_pic(user, %{size: size, data: data}) do
-    IO.inspect(data, label: "DATA")
-
     @multi
     |> put_multi_value(:key, UUID.generate())
-    |> Multi.run(:upload_photo, fn _, %{key: key} -> ProfilePics.upload(key, data) end)
-    |> Multi.run(:image, fn _, %{key: key} ->
-      Images.create_image(key, user, size, :user)
+    |> Multi.run(:upload_photo, fn _, %{key: key} ->
+      ProfilePics.upload(key, data)
+    end)
+    |> Multi.run(:image, fn _, %{upload_photo: key} ->
+      ProfilePics.create_image(key, user, size)
     end)
     |> Multi.update(:update_user, fn %{image: image} ->
       User.profile_pic_changeset(user, image)

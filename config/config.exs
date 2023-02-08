@@ -29,6 +29,11 @@ config :ciao, Ciao.Mailer, adapter: Swoosh.Adapters.Local
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 
+config :ciao, Oban,
+  repo: Ciao.Repo,
+  plugins: [Oban.Plugins.Pruner],
+  queues: [images: 1]
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.14.0",
