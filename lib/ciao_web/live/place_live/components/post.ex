@@ -2,6 +2,7 @@ defmodule Ciao.PlacesLive.PostComponent do
   alias Ciao.Posts
   alias Ciao.Posts.Comment
   alias Ciao.Repo
+  alias CiaoWeb.PlaceView
 
   import Ciao
   use Phoenix.HTML
@@ -19,7 +20,12 @@ defmodule Ciao.PlacesLive.PostComponent do
   def render(assigns) do
     ~H"""
       <div class="post d-flex f-col">
-        <div class="content row">
+      <div class="content row">
+        <%= if @post.images != [] do %>
+          <%= for img <- @post.images do %>
+            <%= PlaceView.display_image(img) %>
+          <% end %>
+        <% end %>
           <%= @post.body %>
         </div>
         <div class="footer">

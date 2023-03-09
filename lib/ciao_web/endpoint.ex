@@ -10,8 +10,6 @@ defmodule CiaoWeb.Endpoint do
     signing_salt: "JdTADKnE"
   ]
 
-  socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])
-
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest
@@ -22,6 +20,17 @@ defmodule CiaoWeb.Endpoint do
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
   )
+
+  socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])
+
+  image_file_storage = Application.get_env(:ciao, Ciao.Images.PostImages)
+
+  if Keyword.fetch!(image_file_storage, :provider) == Ciao.Storage.LocalProvider do
+    plug Plug.Static,
+      at: "/pics",
+      from: {:ciao, Keyword.fetch!(image_file_storage, :relative)},
+      gzip: false
+  end
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

@@ -3,6 +3,20 @@
     </div>
     <div class="col-8 d-flex f-col" id="stream">
         <%= if @changeset do %>
+            <%= for img <- @uploads.images.entries do %>
+                <%= live_img_preview img %>
+                <%= img.progress %>
+                <progress value={img.progress} max="100"><%= img.progress %>%</progress>
+                <%= for err <- upload_errors(@uploads.images, img) do  %>
+                    <div class="error">
+                    </div>
+                <% end %>
+                <button phx-click="cancel-upload" phx-value-ref={img.ref} aria-label="cancel">&times;</button>
+
+            <% end %>
+            <form id="photos" phx-change="validate_image">
+                <%= live_file_input @uploads.images %>
+            </form>
             <.form for={@changeset} let={f} phx-submit="create_post" >
                 <%= hidden_input f, :place_id, value: @place.id %>
                 <%= label f, :body, "Text" %>
