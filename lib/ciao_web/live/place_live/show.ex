@@ -23,8 +23,6 @@ defmodule CiaoWeb.PlaceLive.Show do
   end
 
   defp load_place(%{assigns: %{place: place}} = socket, _session, _params) do
-    IO.inspect(label: "OK SURE")
-
     socket
     |> assign(:posts, Posts.fetch_all_for_place(place))
     |> changeset_if_user_can_post()
@@ -61,14 +59,12 @@ defmodule CiaoWeb.PlaceLive.Show do
     |> Multi.run(:insert_images, fn _, %{post: post} ->
       consume_uploaded_entries(socket, :images, fn %{path: path}, _entry ->
         {:ok, %{size: size}} = File.stat(path)
-        IO.inspect(label: "OK ")
         %{data: File.read!(path), size: size}
-        Posts.upload_image(user, File.read!(path), post, size)
+        PostImages.create_image(user, File.read!(path), post, size)
       end)
       |> ok()
     end)
     |> Repo.transaction()
-    |> IO.inspect(label: "THIS IS SIMPLE")
     |> case do
       {:ok, %{insert_images: images, post: post}} ->
         socket

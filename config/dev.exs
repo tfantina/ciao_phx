@@ -80,11 +80,11 @@ config :phoenix, :plug_init_mode, :runtime
 
 config :ciao, Ciao.Images.ProfilePics,
   provider: Ciao.Storage.LocalProvider,
-  root: Path.expand(Path.join(__DIR__, "/priv/static/images/profiles")),
+  root: Path.expand(Path.join(__DIR__, "../priv/static/images/profiles")),
   url_prefix: "/profile_pics"
 
 config :ciao, Ciao.Images.PostImages,
   provider: Ciao.Storage.LocalProvider,
-  root: Path.expand(Path.join(__DIR__, "/priv/static/images/posts")),
+  root: Path.expand(Path.join(__DIR__, "../priv/static/images/posts")),
   relative: "priv/static/images/posts",
   url_prefix: "/pics"

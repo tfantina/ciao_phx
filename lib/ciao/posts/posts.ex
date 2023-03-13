@@ -34,16 +34,4 @@ defmodule Ciao.Posts do
 
   defp return_post({:ok, post}), do: {:ok, Repo.preload(post, [:user, :comments])}
   defp return_post({:error, _} = res), do: res
-
-  def upload_image(user, data, post, size) do
-    @multi
-    |> put_multi_value(:key, UUID.generate())
-    |> Multi.run(:upload_photo, fn _, %{key: key} ->
-      PostImages.upload(key, data)
-    end)
-    |> Multi.run(:image, fn _, %{upload_photo: key} ->
-      PostImages.create_image(%{user: user, post: post, data: data, size: size, key: key})
-    end)
-    |> Repo.transaction()
-  end
 end
