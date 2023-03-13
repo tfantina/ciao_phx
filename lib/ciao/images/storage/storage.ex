@@ -30,7 +30,7 @@ defmodule Ciao.Storage do
       def provider, do: unquote(provider)
 
       @impl true
-      def url(key, opts \\ []), do: provider().delete(config(), key)
+      def url(key, opts \\ []), do: provider().url(config(), key)
 
       @impl true
       def delete(key), do: provider().delete(config(), key)

@@ -1,6 +1,7 @@
 defmodule Ciao.Posts.Post do
   alias __MODULE__
   alias Ciao.Accounts.User
+  alias Ciao.Images.{ImageRecord, PostImages}
   alias Ciao.Places.Place
   alias Ciao.Posts.Comment
   import Ecto.Changeset
@@ -12,6 +13,7 @@ defmodule Ciao.Posts.Post do
     belongs_to :user, User
 
     has_many :comments, Comment, preload_order: [desc: :inserted_at]
+    has_many :images, ImageRecord
 
     timestamps()
   end

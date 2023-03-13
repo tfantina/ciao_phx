@@ -1,22 +1,25 @@
 defmodule Ciao.Posts do
   alias Ciao.Posts.{Post, Comment}
   alias Ciao.Repo
+  alias Ecto.{Multi, UUID}
+  alias Ciao.Images.{ImageRecord, PostImages}
 
   import Ciao.EctoSupport
   import Ecto.Query
 
   use Ciao.Query, for: Post
+  @multi Multi.new()
 
   def base_query do
     Post
     |> from(as: :post)
-    |> preload([:comments, :user])
+    |> preload([:user, :images, comments: [:user]])
   end
 
   def fetch_all_for_place(place) do
     Post
     |> where([p], p.place_id == ^place.id)
-    |> preload([:comments, :user])
+    |> preload([:user, :images, comments: [:user]])
     |> order_by([p], desc: p.inserted_at)
     |> Repo.all()
   end

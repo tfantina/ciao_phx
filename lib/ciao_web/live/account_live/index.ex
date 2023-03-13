@@ -1,7 +1,7 @@
 defmodule CiaoWeb.AccountLive.Index do
   alias Ciao.Accounts
   alias CiaoWeb.AccountView
-  alias Ciao.Images.Image
+  alias Ciao.Images.ImageRecord
   alias Phoenix.LiveView
 
   import Ciao
@@ -11,12 +11,11 @@ defmodule CiaoWeb.AccountLive.Index do
   @impl LiveView
   def mount(_params, session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
-    IO.inspect(user, label: "IMAGE")
 
     socket
     |> assign(:user, user)
     |> assign(:photo, nil)
-    |> assign(:image_changeset, Image.image_changeset())
+    |> assign(:image_changeset, ImageRecord.image_changeset())
     |> allow_upload(:profile_pic,
       accept: ~w[.jpg .jpeg .png .gif],
       max_entries: 1,
@@ -39,7 +38,6 @@ defmodule CiaoWeb.AccountLive.Index do
 
   def handle_event("save_image", _params, %{assigns: %{user: user, uploads: uploads}} = socket) do
     data = read_file(socket, uploads)
-    IO.inspect(data, label: "DATA")
 
     case Accounts.upload_profile_pic(user, data) do
       {:ok, _} ->

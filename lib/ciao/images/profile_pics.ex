@@ -1,4 +1,12 @@
 defmodule Ciao.Images.ProfilePics do
-  @moduledoc false
-  use Ciao.Storage, otp_app: :ciao
+  @moduledoc """
+  WIP 
+  """
+  alias Ecto.{Multi, UUID}
+  alias Ciao.Images
+  alias Ciao.Images.{ImageRecord, ImageVariant}
+  alias Ciao.Repo
+  alias Image
+
+  import Ciao.EctoSupport
 end
