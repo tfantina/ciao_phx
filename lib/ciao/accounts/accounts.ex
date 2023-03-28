@@ -5,12 +5,15 @@ defmodule Ciao.Accounts do
   alias Ecto.{Multi, UUID}
   alias Ciao.Repo
   alias Ciao.Accounts.{User, UserToken, UserNotifier}
+  alias Ciao.Places.Place
   alias Ciao.Images.ProfilePics
 
+  import Ciao
   import Ciao.EctoSupport
   import Ecto.Query, warn: false
 
   @multi Multi.new()
+  @email_regex ~r/^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$/
 
   ## Database getters
 
@@ -64,6 +67,24 @@ defmodule Ciao.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  @doc """
+  Finds  users by a search string
+  """
+  @spec find_accounts(String.t(), Place.t()) :: [User.t()]
+  def find_accounts(term, _place) do
+    if String.match?(term, @email_regex) do
+      {:ok, [%{email: term}]}
+    else
+      User
+      |> where([u], ilike(u.email, ^"%#{term}%"))
+      |> Repo.all()
+      |> case do
+        [] -> {:ok, []}
+        results -> {:ok, results}
+      end
+    end
+  end
+
   ## User registration
 
   @doc """
@@ -82,6 +103,21 @@ defmodule Ciao.Accounts do
     %User{}
     |> User.registration_changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Finds a user by their email or signs them up (passwordless authentication)
+  """
+  def find_or_create_by_email(email) do
+    case get_user_by_email(email) do
+      %User{} = user ->
+        {:ok, user}
+
+      _ ->
+        res =
+          %User{email: email, login_preference: "email"}
+          |> Repo.insert()
+    end
   end
 
   @doc """
@@ -320,15 +356,15 @@ defmodule Ciao.Accounts do
 
   ## Examples
 
-      iex> get_user_by_reset_password_token("validtoken")
+      iex> get_user_by_token("validtoken", valid_context)
       %User{}
 
-      iex> get_user_by_reset_password_token("invalidtoken")
+      iex> get_user_by_token("invalidtoken", _context)
       nil
 
   """
-  def get_user_by_reset_password_token(token) do
-    with {:ok, query} <- UserToken.verify_email_token_query(token, "reset_password"),
+  def get_user_by_token(token, context) do
+    with {:ok, query} <- UserToken.verify_email_token_query(token, context),
          %User{} = user <- Repo.one(query) do
       user
     else

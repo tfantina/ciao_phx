@@ -28,7 +28,7 @@ defmodule CiaoWeb.Router do
     get "/", PageController, :index
   end
 
-  scope "/live", CiaoWeb do
+  scope "/app", CiaoWeb do
     pipe_through [:browser, :live_pipeline]
 
     live "/places", PlaceLive.Index
@@ -91,6 +91,11 @@ defmodule CiaoWeb.Router do
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+  end
+
+  scope "/", CiaoWeb do
+    pipe_through [:browser]
+    get "/users/invite/:token", UserInviteController, :create
   end
 
   scope "/", CiaoWeb do

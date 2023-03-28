@@ -88,3 +88,5 @@ config :ciao, Ciao.Images.PostImages,
   root: Path.expand(Path.join(__DIR__, "../priv/static/images/posts")),
   relative: "priv/static/images/posts",
   url_prefix: "/pics"
+
+config :ciao, Config.URL, root_url: "http://localhost:4000"

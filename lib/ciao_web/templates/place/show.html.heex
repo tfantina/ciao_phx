@@ -1,5 +1,6 @@
 <div class="row">
     <div class="col-2" id="info">
+        <.live_component module={Ciao.PlaceLive.InviteComponent} user={@user} place={@place} id="invite_inline" />
     </div>
     <div class="col-8 d-flex f-col" id="stream">
         <%= if @changeset do %>

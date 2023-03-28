@@ -1,7 +1,9 @@
 defmodule Ciao.Places do
-  alias Ciao.Accounts.User
+  alias Ciao.Accounts
+  alias Ciao.Accounts.{Invite, User}
   alias Ciao.Places.{Place, UserRelation}
   alias Ciao.Repo
+  alias Ciao.Workers.EmailWorker
   alias Ecto.Multi
 
   import Ciao.EctoSupport
@@ -37,5 +39,32 @@ defmodule Ciao.Places do
     %{user_id: user.id, place_id: place.id, role: "owner"}
     |> UserRelation.changeset_create()
     |> repo.insert()
+  end
+
+  def add_user(invitor_id, place_id, invitee_email, role) do
+    params = %{place_id: place_id, role: role}
+
+    @multi
+    |> Multi.run(:user, fn _repo, _ ->
+      Accounts.find_or_create_by_email(invitee_email)
+    end)
+    |> Multi.run(:params, fn _, %{user: user} ->
+      {:ok, %{place_id: place_id, role: role, user_id: user.id}}
+    end)
+    |> Multi.insert(:relation, fn %{params: params} ->
+      UserRelation.changeset_create(params)
+    end)
+    |> Multi.run(:invite, fn repo, %{params: params} ->
+      params
+      |> Map.put(:invitor_id, invitor_id)
+      |> Invite.changeset_create()
+      |> repo.insert()
+    end)
+    |> Multi.run(:email_invite, fn repo, %{invite: invite, user: user} ->
+      invite
+      |> EmailWorker.new_email_invite(user.confirmed_at)
+      |> Oban.insert()
+    end)
+    |> Repo.transaction()
   end
 end

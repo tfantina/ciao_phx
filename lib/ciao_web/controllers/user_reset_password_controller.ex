@@ -46,7 +46,7 @@ defmodule CiaoWeb.UserResetPasswordController do
   defp get_user_by_reset_password_token(conn, _opts) do
     %{"token" => token} = conn.params
 
-    if user = Accounts.get_user_by_reset_password_token(token) do
+    if user = Accounts.get_user_by_token(token, "reset_password") do
       conn |> assign(:user, user) |> assign(:token, token)
     else
       conn
