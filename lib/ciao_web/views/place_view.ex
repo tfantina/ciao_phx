@@ -1,5 +1,6 @@
 defmodule CiaoWeb.PlaceView do
   alias Ciao.PlacesLive.PostComponent
+  alias Ciao.PlacesLive.Forms
   alias Phoenix.LiveView.UploadEntry
   alias Ciao.Images.PostImages
 

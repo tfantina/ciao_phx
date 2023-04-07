@@ -78,6 +78,28 @@ defmodule Ciao.Accounts.UserNotifier do
   end
 
   @doc """
+  Deliver email to sign in user
+  """
+  def deliver_magic_code(user, url) do
+    deliver(user.email, "Ciao, come on in!", """
+    ==============================
+
+    Hi #{user.email},
+
+    You are receiving this because you or someone with your email address just
+    attempted to sign into Ciao. Please follow the link below to be automatically
+    signed in within the next 10 minutes.
+
+    #{url}
+
+    If you did not just try to sign in please be sure your email is secure and
+    this email.
+
+    ==============================
+    """)
+  end
+
+  @doc """
   Deliver user invite
   """
   def deliver_user_invite(invite, url) do
