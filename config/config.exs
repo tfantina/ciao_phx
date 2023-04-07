@@ -32,7 +32,7 @@ config :swoosh, :api_client, false
 config :ciao, Oban,
   repo: Ciao.Repo,
   plugins: [Oban.Plugins.Pruner],
-  queues: [images: 1]
+  queues: [images: 1, mailer: 5]
 
 # Configure esbuild (the version is required)
 config :esbuild,

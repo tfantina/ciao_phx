@@ -8,7 +8,7 @@ defmodule Ciao.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"Ciao", "contact@example.com"})
+      |> from({"Ciao", "no-reply@ciao.com"})
       |> subject(subject)
       |> text_body(body)
 
@@ -72,6 +72,31 @@ defmodule Ciao.Accounts.UserNotifier do
     #{url}
 
     If you didn't request this change, please ignore this.
+
+    ==============================
+    """)
+  end
+
+  @doc """
+  Deliver user invite
+  """
+  def deliver_user_invite(invite, url) do
+    deliver(invite.user.email, "You've been invited...", """
+    ==============================
+
+    Hi #{invite.user.email},
+
+    #{invite.invitor.email} has invited you to a place: #{invite.place.name}.
+    You can follow along by clicking the link below.
+
+
+    #{url}
+
+    Ciao is a small anti-social-social-network for keeping up with what
+    matters most in life.  If you already have an account #{invite.place.name}
+    will be added to your places. Otherwise you will be given access to this place,
+    there is no need to sign up, a secure link will be emailed to you when you
+    want to access what #{invite.invitor.email} sent you.
 
     ==============================
     """)

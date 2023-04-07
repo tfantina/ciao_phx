@@ -434,7 +434,7 @@ defmodule Ciao.AccountsTest do
     end
   end
 
-  describe "get_user_by_reset_password_token/1" do
+  describe "get_user_by_token/1" do
     setup do
       user = user_fixture()
 
@@ -447,7 +447,7 @@ defmodule Ciao.AccountsTest do
     end
 
     test "returns the user with valid token", %{user: %{id: id}, token: token} do
-      assert %User{id: ^id} = Accounts.get_user_by_reset_password_token(token)
+      assert %User{id: ^id} = Accounts.get_user_by_token(token, "reset_password")
       assert Repo.get_by(UserToken, user_id: id)
     end
 
