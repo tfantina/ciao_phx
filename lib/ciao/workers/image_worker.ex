@@ -23,7 +23,7 @@ defmodule Ciao.Workers.ImageWorker do
     do: new(%{"task" => "resize/post_pic", "id" => image.id, "size" => size})
 
   #
-  # Handlers 
+  # Handlers
   #
   defp queue_resize_jobs(id) do
     case Images.get(id) do

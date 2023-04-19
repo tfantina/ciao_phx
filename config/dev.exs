@@ -90,3 +90,6 @@ config :ciao, Ciao.Images.PostImages,
   url_prefix: "/pics"
 
 config :ciao, Config.URL, root_url: "http://localhost:4000"
+
+config :ciao, Ciao.Mailer,
+  adapter: Swoosh.Adapters.Local

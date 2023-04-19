@@ -1,11 +1,6 @@
 defmodule CiaoWeb.PageLive.Index do
   @moduledoc false
-  alias Ciao.Accounts
-  alias Ciao.Accounts.{User, SignIn}
   alias CiaoWeb.PageView
-  alias CiaoWeb.UserAuth
-  alias Ciao.Workers.EmailWorker
-  alias Ecto.Changeset
 
   import Ciao
 

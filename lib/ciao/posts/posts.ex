@@ -14,13 +14,13 @@ defmodule Ciao.Posts do
   def base_query do
     Post
     |> from(as: :post)
-    |> preload([:user, :images, comments: [:user]])
+    |> preload([:user, images: [:image_variants], comments: [:user]])
   end
 
   def fetch_all_for_place(place) do
     Post
     |> where([p], p.place_id == ^place.id)
-    |> preload([:user, :images, comments: [:user]])
+    |> preload([:user, images: [:image_variants], comments: [:user]])
     |> order_by([p], desc: p.inserted_at)
     |> Repo.all()
   end

@@ -14,4 +14,6 @@
 <%= for post <- @posts do %>
         <.live_component module={PostComponent} id={"post-#{post.id}"} post={post} user={@user}/>
 <% end %>
-<a href="#" phx-click={:load_more} phx-value-from={@from}>Load More</a>
+<%= unless Enum.empty?(@posts) do %>
+    <a href="#" phx-click={:load_more} phx-value-from={@from}>Load More</a>
+<% end %>

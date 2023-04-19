@@ -40,7 +40,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
+  host = System.get_env("PHX_HOST") || "https://ciaoplace.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :ciao, CiaoWeb.Endpoint,
@@ -53,33 +53,34 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: port
     ],
-    secret_key_base: secret_key_base
+    secret_key_base: secret_key_base,
+    check_origin: ["https://ciaoplace.com"]
 
-  # ## Using releases
-  #
-  # If you are doing OTP releases, you need to instruct Phoenix
-  # to start each relevant endpoint:
-  #
-  #     config :ciao, CiaoWeb.Endpoint, server: true
-  #
-  # Then you can assemble a release by calling `mix release`.
-  # See `mix help release` for more information.
+  config :ex_aws, :s3,
+    scheme: "https://",
+    host: System.get_env("S3_URL"),
+    region: System.get_env("S3_REGION")
 
-  # ## Configuring the mailer
-  #
-  # In production you need to configure the mailer to use a different adapter.
-  # Also, you may need to configure the Swoosh API client of your choice if you
-  # are not using SMTP. Here is an example of the configuration:
-  #
-  #     config :ciao, Ciao.Mailer,
-  #       adapter: Swoosh.Adapters.Mailgun,
-  #       api_key: System.get_env("MAILGUN_API_KEY"),
-  #       domain: System.get_env("MAILGUN_DOMAIN")
-  #
-  # For this example you need include a HTTP client required by Swoosh API client.
-  # Swoosh supports Hackney and Finch out of the box:
-  #
-  #     config :swoosh, :api_client, Swoosh.ApiClient.Hackney
-  #
-  # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
+  config :ciao, Ciao.Images.ProfilePics,
+    provider: Ciao.Storage.S3Provider,
+    region: System.get_env("S3_REGION"),
+    bucket: System.get_env("S3_BUCKET"),
+    access_key_id: System.get_env("S3_ACCESS_KEY"),
+    secrtet_access_key: System.get_env("S3_SECRET_KEY")
+
+  config :ciao, Ciao.Images.PostImages,
+    provider: Ciao.Storage.S3Provider,
+    region: System.get_env("S3_REGION"),
+    bucket: System.get_env("S3_BUCKET"),
+    access_key_id: System.get_env("S3_ACCESS_KEY"),
+    secrtet_access_key: System.get_env("S3_SECRET_KEY")
+
+  config :ciao, Config.URL, root_url: "https://ciaoplace.com"
+
+
+config :ciao, Ciao.Mailer,
+  adapter: Swoosh.Adapters.Sendgrid,
+  api_key: System.get_env("SENDGRID_KEY")
+
+config :swoosh, :api_client, Swoosh.ApiClient.Hackney
 end

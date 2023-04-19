@@ -1,20 +1,20 @@
 defmodule Ciao.Images.ImageCreators do
   @moduledoc """
-  Image and Image variant management. 
-  This macro implements an image pipeline that will upload a signle image and generate 
+  Image and Image variant management.
+  This macro implements an image pipeline that will upload a signle image and generate
   variant sizes.
 
-  While other implementations of `Ciao.Storage`, or the `Image` library could eventually 
-  be used elsewhere, the goal with this module is to abstract as much as possible so that 
+  While other implementations of `Ciao.Storage`, or the `Image` library could eventually
+  be used elsewhere, the goal with this module is to abstract as much as possible so that
   any module that uses this macro can hit the ground running and generating images.
 
-  To implement this macro call `use` and pass a `domain` string (domain categorizes 
+  To implement this macro call `use` and pass a `domain` string (domain categorizes
   images and allows us to put images in seperate buckets if needed), and a list of `variants`:
 
   eg. `["100x100", "400x400", "1000x1400"]`
 
-  Each variant size will create a resized version of the original image. Variants are created 
-  with the `Image` library (this is used because of it's ability to choose a focus spot when 
+  Each variant size will create a resized version of the original image. Variants are created
+  with the `Image` library (this is used because of it's ability to choose a focus spot when
   cropping) and run under an `ImageWorker` job.
   """
 
@@ -45,11 +45,11 @@ defmodule Ciao.Images.ImageCreators do
       @multi Multi.new()
 
       @doc """
-      All images are associated with the user who initieated the upload. As parameters 
+      All images are associated with the user who initieated the upload. As parameters
       we take:
       * a user struct
       * a bitstring of file data (for direct uploading into an S3 bucket)
-      * a record to associate with 
+      * a record to associate with
       * the size of the original image (this helps keep track of total storage an individual user is using)
       * optional params
 
@@ -94,7 +94,7 @@ defmodule Ciao.Images.ImageCreators do
       end
 
       @doc """
-      Called by resizing jobs, takes a image and a size string (eg. "100x120") and generates 
+      Called by resizing jobs, takes a image and a size string (eg. "100x120") and generates
       a smaller variant.
       """
       @impl true
@@ -127,6 +127,7 @@ defmodule Ciao.Images.ImageCreators do
       @doc """
       Gets a list of variant sizes from the macro implementation.
       """
+      @impl true
       def variants() do
         unquote(variants)
       end
@@ -134,7 +135,8 @@ defmodule Ciao.Images.ImageCreators do
   end
 
   @doc false
-  @callback create_image(user_or_place_t, integer()) :: ok_t() | error_t()
+  @callback create_image(User.t(), String.t(), user_or_place_t(), integer(), Keyword.t()) ::
+              ok_t() | error_t()
 
   @doc false
   @callback create_variant(image :: Image.t(), opts :: String.t()) ::

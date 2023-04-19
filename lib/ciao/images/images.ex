@@ -5,14 +5,6 @@ defmodule Ciao.Images do
   live under the Images umbrella.  If this ever becomes unmanagable these functions
   should be extracted into behaviours and composed in seperate modules.
   """
-  alias __MODULE__
-  alias Ciao.Accounts.User
-  alias Ecto.{Multi, UUID}
-  alias Ciao.Images.{ImageRecord, ImageVariant, ProfilePics}
-  alias Ciao.Repo
-  alias Image, as: Img
-
-  @multi Multi.new()
-
+  alias Ciao.Images.ImageRecord
   use Ciao.Query, for: ImageRecord
 end

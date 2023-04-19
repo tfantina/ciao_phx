@@ -16,7 +16,7 @@ defmodule Ciao.Images.ImageRecord do
     belongs_to(:post, Post)
     belongs_to(:place, Place)
     belongs_to(:user, User)
-    has_many(:image_variants, ImageVariant)
+    has_many(:image_variants, ImageVariant, foreign_key: :image_id)
 
     timestamps()
   end

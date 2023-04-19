@@ -10,16 +10,23 @@ defmodule CiaoWeb.PlaceLive.Index do
   def mount(_params, session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
     posts = Posts.fetch_recent(user)
-    [p | _] = Enum.reverse(posts)
 
     socket
     |> assign(:user, user)
     |> assign(:places, Places.fetch_all_for_user(user))
     |> assign(:posts, posts)
-    |> assign(:from, p.inserted_at)
+    |> assign(:from, from(posts))
     |> assign(:new_place, nil)
     |> ok()
   end
+
+  defp from([_ | _] = posts) do
+    [p | _] = Enum.reverse(posts)
+
+    p.inserted_at
+  end
+
+  defp from([]), do: Timex.now()
 
   @impl LiveView
   def render(assigns), do: PlaceView.render("index.html", assigns)

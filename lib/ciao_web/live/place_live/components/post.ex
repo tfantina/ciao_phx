@@ -23,7 +23,7 @@ defmodule Ciao.PlacesLive.PostComponent do
       <div class="content row">
         <%= if @post.images != [] do %>
           <%= for img <- @post.images do %>
-            <%= PlaceView.display_image(img) %>
+            <%= PlaceView.display_image(img, "1000x1000") %>
           <% end %>
         <% end %>
           <%= @post.body %>

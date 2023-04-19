@@ -30,7 +30,7 @@ defmodule CiaoWeb.UserSessionController do
     else
       # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
       IO.inspect(label: "WORD")
-      redirect(conn, to: "/users/sign_in/confirm") |> IO.inspect(label: "REDIRECT")
+      redirect(conn, to: "/users/sign_in/confirm")
     end
   end
 

@@ -24,7 +24,8 @@ defmodule Ciao.Storage do
       @config unquote(provider).init(unquote(env_config))
 
       @doc false
-      def config, do: provider().init(Application.get_env(unquote(otp_app), __MODULE__, []))
+      def config,
+        do: unquote(provider).init(Application.get_env(unquote(otp_app), __MODULE__, []))
 
       @doc false
       def provider, do: unquote(provider)

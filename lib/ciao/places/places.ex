@@ -22,8 +22,10 @@ defmodule Ciao.Places do
 
   def fetch_users_for_place(place) do
     User
-    |> join(:left, [u], ur in UserRelation, on: u.place_id)
+    |> join(:left, [u], ur in UserRelation, on: u.id == ur.user_id)
     |> where([_u, ur], ur.place_id == ^place.id)
+    |> preload(:user_relations)
+    |> order_by([_u, ur], [ur.role])
     |> Repo.all()
   end
 
