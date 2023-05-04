@@ -10,7 +10,6 @@ defmodule Ciao.Places do
   import Ecto.Query
 
   use Ciao.Query, for: Place
-
   @multi Multi.new()
 
   def fetch_all_for_user(user) do

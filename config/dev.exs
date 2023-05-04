@@ -70,7 +70,7 @@ config :ciao, CiaoWeb.Endpoint,
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
-
+ 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
@@ -87,6 +87,12 @@ config :ciao, Ciao.Images.PostImages,
   provider: Ciao.Storage.LocalProvider,
   root: Path.expand(Path.join(__DIR__, "../priv/static/images/posts")),
   relative: "priv/static/images/posts",
+  url_prefix: "/pics"
+
+config :ciao, Ciao.Images.PlaceImages,
+  provider: Ciao.Storage.LocalProvider,
+  root: Path.expand(Path.join(__DIR__, "../priv/static/images/places")),
+  relative: "priv/static/images/places",
   url_prefix: "/pics"
 
 config :ciao, Config.URL, root_url: "http://localhost:4000"

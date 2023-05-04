@@ -24,11 +24,19 @@ defmodule CiaoWeb.Endpoint do
   socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])
 
   image_file_storage = Application.get_env(:ciao, Ciao.Images.PostImages)
+  place_file_storage = Application.get_env(:ciao, Ciao.Images.PlaceImages)
 
   if Keyword.fetch!(image_file_storage, :provider) == Ciao.Storage.LocalProvider do
     plug Plug.Static,
       at: "/pics",
       from: {:ciao, Keyword.fetch!(image_file_storage, :relative)},
+      gzip: false
+  end
+
+  if Keyword.fetch!(place_file_storage, :provider) == Ciao.Storage.LocalProvider do
+    plug Plug.Static,
+      at: "/pics",
+      from: {:ciao, Keyword.fetch!(place_file_storage, :relative)},
       gzip: false
   end
 

@@ -89,6 +89,10 @@ defmodule Ciao.Images.ImageCreators do
         %{key: key, size: size, user_id: user_id, post_id: post_id}
       end
 
+      defp create_params(%{user: %{id: user_id}, record: %Place{id: place_id}, size: size, key: key}) do
+        %{key: key, size: size, user_id: user_id, place_id: place_id}
+      end
+
       defp create_params(%{user: %{id: user_id}, size: size, key: key}) do
         %{key: key, size: size, user_id: user_id}
       end
@@ -107,7 +111,7 @@ defmodule Ciao.Images.ImageCreators do
       defp generate_and_upload_variant(%{id: id, key: key}, size) do
         with {:ok, image} <- download(key),
              {:ok, image} <- ImageResizeLibrary.open(image),
-             {:ok, thumb} <- ImageResizeLibrary.thumbnail(image, size, crop: :attention),
+             {:ok, thumb} <- ImageResizeLibrary.thumbnail(image, size, crop: :attention, fit: :cover),
              {:ok, data} <- ImageResizeLibrary.write(thumb, :memory, suffix: ".jpg") do
           @multi
           |> put_multi_value(:key, UUID.generate())

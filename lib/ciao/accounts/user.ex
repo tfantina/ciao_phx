@@ -16,7 +16,7 @@ defmodule Ciao.Accounts.User do
 
     timestamps()
   end
-
+ 
   @doc """
   A user changeset for registration.
 

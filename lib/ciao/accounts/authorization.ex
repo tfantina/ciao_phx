@@ -10,7 +10,7 @@ defmodule Ciao.Accounts.Authorization do
   Authorizes a user by seeing their role in a particular place. 
   """
   def authorize_user(socket, session, params, roles, callback) do
-    place = Places.get(params["id_or_slug"])
+    place = Places.get(params["id_or_slug"]) |> Ciao.Repo.preload(place_pics: [:image_variants])
     user = Accounts.get_user_by_session_token(session["user_token"])
     user_places = Enum.map(user.user_relations, & &1.place_id)
 

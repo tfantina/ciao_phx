@@ -1,6 +1,6 @@
 defmodule Ciao.Images.PostImages do
   @moduledoc """
-  Uses ImageCreators module to upload post images and create variantsim
+  Uses ImageCreators module to upload post images and create variants
   """
 
   alias Ecto.{Multi, UUID}
