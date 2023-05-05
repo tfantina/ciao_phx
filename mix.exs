@@ -33,6 +33,7 @@ defmodule Ciao.MixProject do
   defp deps do
     [
       {:bcrypt_elixir, "~> 3.0"},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dart_sass, "~> 0.5", runtime: Mix.env() == :dev},
       {:phoenix, "~> 1.6.6"},
       {:phoenix_ecto, "~> 4.4"},
@@ -49,6 +50,7 @@ defmodule Ciao.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.17.5"},
       {:phoenix_live_dashboard, "~> 0.6"},
+       {:sobelow, "~> 0.12", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 1.9.1"},
       {:sweet_xml, "~> 0.6"},
       {:telemetry_metrics, "~> 0.6"},

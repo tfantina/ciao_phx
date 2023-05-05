@@ -17,10 +17,12 @@ defmodule Ciao.Storage.LocalProvider do
 
   @impl true
   def url(%{url_prefix: url_prefix}, key, _opts \\ []) do
-    with :ok <- validate_key(key) do
-      ok({:local, Path.join(url_prefix, key)})
-    else
-      _ -> {:label, :POKE!}
+    case validate_key(key) do
+      :ok ->
+        ok({:local, Path.join(url_prefix, key)})
+
+      _ ->
+        {:local, "/"}
     end
   end
 

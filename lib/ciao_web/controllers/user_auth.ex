@@ -1,4 +1,7 @@
 defmodule CiaoWeb.UserAuth do
+  @moduledoc """
+  Basic authentication for users
+  """
   import Plug.Conn
   import Phoenix.Controller
 

@@ -1,4 +1,5 @@
 defmodule Ciao.Accounts.UserToken do
+  @moduledoc false
   use Ciao.Schema
   import Ecto.Query
   alias Ciao.Accounts.UserToken

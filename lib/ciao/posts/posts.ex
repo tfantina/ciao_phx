@@ -1,9 +1,13 @@
 defmodule Ciao.Posts do
-  alias Ciao.Posts.{Post, Comment}
+  @moduledoc """
+  Context for User's Posts.
+  """
+
+  alias Ciao.Images.{ImageRecord, PostImages}
   alias Ciao.Places.{Place, UserRelation}
+  alias Ciao.Posts.{Comment, Post}
   alias Ciao.Repo
   alias Ecto.{Multi, UUID}
-  alias Ciao.Images.{ImageRecord, PostImages}
 
   import Ciao.EctoSupport
   import Ecto.Query

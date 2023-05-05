@@ -2,11 +2,11 @@ defmodule Ciao.Accounts do
   @moduledoc """
   The Accounts context.
   """
-  alias Ecto.{Multi, UUID}
-  alias Ciao.Repo
-  alias Ciao.Accounts.{User, UserToken, UserNotifier}
-  alias Ciao.Places.Place
+  alias Ciao.Accounts.{User, UserNotifier, UserToken}
   alias Ciao.Images.ProfilePics
+  alias Ciao.Places.Place
+  alias Ciao.Repo
+  alias Ecto.{Multi, UUID}
 
   import Ciao
   import Ciao.EctoSupport

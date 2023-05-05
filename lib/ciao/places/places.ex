@@ -1,4 +1,7 @@
 defmodule Ciao.Places do
+  @moduledoc """
+  Context for Places
+  """
   alias Ciao.Accounts
   alias Ciao.Accounts.{Invite, User}
   alias Ciao.Places.{Place, UserRelation}

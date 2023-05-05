@@ -13,7 +13,9 @@ defmodule Ciao.DataCase do
   by setting `use Ciao.DataCase, async: true`, although
   this option is not recommended for other databases.
   """
-
+  alias Ciao.Repo
+  alias Ecto.Adapaters.SQL.Sandbox
+  alias Ecto.Changeset
   use ExUnit.CaseTemplate
 
   using do
@@ -28,8 +30,8 @@ defmodule Ciao.DataCase do
   end
 
   setup tags do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Ciao.Repo, shared: not tags[:async])
-    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+    pid = Sandbox.start_owner!(Repo, shared: not tags[:async])
+    on_exit(fn -> Sandbox.stop_owner(pid) end)
     :ok
   end
 
@@ -42,7 +44,7 @@ defmodule Ciao.DataCase do
 
   """
   def errors_on(changeset) do
-    Ecto.Changeset.traverse_errors(changeset, fn {message, opts} ->
+    Changeset.traverse_errors(changeset, fn {message, opts} ->
       Regex.replace(~r"%{(\w+)}", message, fn _, key ->
         opts |> Keyword.get(String.to_existing_atom(key), key) |> to_string()
       end)

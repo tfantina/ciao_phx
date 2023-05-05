@@ -48,25 +48,25 @@ config :logger, level: :info
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
 
-  config :ciao, Ciao.Images.ProfilePics,
-    provider: Ciao.Storage.S3Provider,
-    region: System.get_env("S3_REGION"),
-    bucket: System.get_env("S3_BUCKET"),
-    access_key_id: System.get_env("S3_ACCESS_KEY"),
-    secrtet_access_key: System.get_env("S3_SECRET_KEY")
+config :ciao, Ciao.Images.ProfilePics,
+  provider: Ciao.Storage.S3Provider,
+  region: System.get_env("S3_REGION"),
+  bucket: System.get_env("S3_BUCKET"),
+  access_key_id: System.get_env("S3_ACCESS_KEY"),
+  secrtet_access_key: System.get_env("S3_SECRET_KEY")
 
-  config :ciao, Ciao.Images.PostImages,
-    provider: Ciao.Storage.S3Provider,
-    region: System.get_env("S3_REGION"),
-    bucket: System.get_env("S3_BUCKET"),
-    access_key_id: System.get_env("S3_ACCESS_KEY"),
-    secrtet_access_key: System.get_env("S3_SECRET_KEY")
+config :ciao, Ciao.Images.PostImages,
+  provider: Ciao.Storage.S3Provider,
+  region: System.get_env("S3_REGION"),
+  bucket: System.get_env("S3_BUCKET"),
+  access_key_id: System.get_env("S3_ACCESS_KEY"),
+  secrtet_access_key: System.get_env("S3_SECRET_KEY")
 
-  config :ciao, Ciao.Images.PlaceImages,
-    provider: Ciao.Storage.S3Provider,
-    region: System.get_env("S3_REGION"),
-    bucket: System.get_env("S3_BUCKET"),
-    access_key_id: System.get_env("S3_ACCESS_KEY"),
-    secrtet_access_key: System.get_env("S3_SECRET_KEY")
+config :ciao, Ciao.Images.PlaceImages,
+  provider: Ciao.Storage.S3Provider,
+  region: System.get_env("S3_REGION"),
+  bucket: System.get_env("S3_BUCKET"),
+  access_key_id: System.get_env("S3_ACCESS_KEY"),
+  secrtet_access_key: System.get_env("S3_SECRET_KEY")
 
 config :ciao, Config.URL, root_url: "https://ciaoplace.com"

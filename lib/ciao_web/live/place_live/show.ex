@@ -1,13 +1,12 @@
 defmodule CiaoWeb.PlaceLive.Show do
   alias Ciao.{Accounts, Places, Posts}
+  alias Ciao.Accounts.Authorization
   alias Ciao.Images.{ImageRecord, PostImages}
   alias Ciao.Posts.Post
-  alias Ciao.Accounts.Authorization
+  alias Ciao.Repo
   alias CiaoWeb.PlaceView
   alias Ecto.{Multi, UUID}
-
   alias Phoenix.LiveView
-  alias Ciao.Repo
 
   import Ciao
   import Ciao.EctoSupport

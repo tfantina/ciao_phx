@@ -17,13 +17,11 @@ config :ciao, CiaoWeb.Endpoint,
   pubsub_server: Ciao.PubSub,
   live_view: [signing_salt: "kLxhHTR5"]
 
-
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 
 config :ciao, Oban,
   repo: Ciao.Repo,
-  plugins: [Oban.Plugins.Pruner, max_age: 864_000],
   queues: [images: 1, mailer: 5]
 
 # Configure esbuild (the version is required)

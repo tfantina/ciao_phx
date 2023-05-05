@@ -2,11 +2,11 @@ alias Ciao.Repo
 
 import_if_available(Ecto.Query)
 
-
 timestamp = fn ->
-  {_date, {hour, minute, _second}} = :calendar.local_time
+  {_date, {hour, minute, _second}} = :calendar.local_time()
+
   [hour, minute]
-  |> Enum.map(&(String.pad_leading(Integer.to_string(&1), 2, "0")))
+  |> Enum.map(&String.pad_leading(Integer.to_string(&1), 2, "0"))
   |> Enum.join(":")
 end
 
@@ -36,7 +36,6 @@ when_exported = fn module, use_message ->
     ""
   end
 end
-
 
 import_file_if_available("~/.iex.exs")
 import_file_if_available(".iex.secret.exs")

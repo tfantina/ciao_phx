@@ -18,14 +18,14 @@ defmodule Ciao.Images.ImageCreators do
   cropping) and run under an `ImageWorker` job.
   """
 
-  alias Ecto.{Multi, UUID}
   alias Ciao.Images
   alias Ciao.Images.{ImageRecord, ImageVariant}
-  alias Ciao.Users.User
   alias Ciao.Places.Place
   alias Ciao.Posts.Post
   alias Ciao.Repo
+  alias Ciao.Users.User
   alias Ciao.Workers.ImageWorker
+  alias Ecto.{Multi, UUID}
 
   alias Image, as: ImageResizeLibrary
 
@@ -89,7 +89,12 @@ defmodule Ciao.Images.ImageCreators do
         %{key: key, size: size, user_id: user_id, post_id: post_id}
       end
 
-      defp create_params(%{user: %{id: user_id}, record: %Place{id: place_id}, size: size, key: key}) do
+      defp create_params(%{
+             user: %{id: user_id},
+             record: %Place{id: place_id},
+             size: size,
+             key: key
+           }) do
         %{key: key, size: size, user_id: user_id, place_id: place_id}
       end
 
@@ -111,7 +116,8 @@ defmodule Ciao.Images.ImageCreators do
       defp generate_and_upload_variant(%{id: id, key: key}, size) do
         with {:ok, image} <- download(key),
              {:ok, image} <- ImageResizeLibrary.open(image),
-             {:ok, thumb} <- ImageResizeLibrary.thumbnail(image, size, crop: :attention, fit: :cover),
+             {:ok, thumb} <-
+               ImageResizeLibrary.thumbnail(image, size, crop: :attention, fit: :cover),
              {:ok, data} <- ImageResizeLibrary.write(thumb, :memory, suffix: ".jpg") do
           @multi
           |> put_multi_value(:key, UUID.generate())
@@ -132,7 +138,7 @@ defmodule Ciao.Images.ImageCreators do
       Gets a list of variant sizes from the macro implementation.
       """
       @impl true
-      def variants() do
+      def variants do
         unquote(variants)
       end
     end

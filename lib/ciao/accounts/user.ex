@@ -1,6 +1,8 @@
 defmodule Ciao.Accounts.User do
-  alias Ciao.Places.UserRelation
+  @moduledoc false
+
   alias Ciao.Images.ImageRecord
+  alias Ciao.Places.UserRelation
   import Ecto.Changeset
   use Ciao.Schema
 
@@ -16,7 +18,7 @@ defmodule Ciao.Accounts.User do
 
     timestamps()
   end
- 
+
   @doc """
   A user changeset for registration.
 

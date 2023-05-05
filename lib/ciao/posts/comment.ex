@@ -1,8 +1,12 @@
 defmodule Ciao.Posts.Comment do
+  @moduledoc false
+
   alias __MODULE__
   alias Ciao.Accounts.User
   alias Ciao.Posts.Post
+
   import Ecto.Changeset
+
   use Ciao.Schema
 
   schema "comments" do

@@ -2,8 +2,8 @@ defmodule CiaoWeb.UserSessionController do
   use CiaoWeb, :controller
 
   alias Ciao.Accounts
-  alias CiaoWeb.UserAuth
   alias Ciao.Workers.EmailWorker
+  alias CiaoWeb.UserAuth
 
   def new(conn, _params) do
     render(conn, "new.html", error_message: nil)
@@ -19,8 +19,6 @@ defmodule CiaoWeb.UserSessionController do
   end
 
   def create(conn, %{"user" => %{"email" => email} = user_params}) do
-    IO.inspect(label: "OPKL")
-
     if user = Accounts.get_user_by_email(email) do
       user
       |> EmailWorker.new_sign_in_from_email(nil)
@@ -29,7 +27,6 @@ defmodule CiaoWeb.UserSessionController do
       redirect(conn, to: "/users/sign_in/confirm")
     else
       # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
-      IO.inspect(label: "WORD")
       redirect(conn, to: "/users/sign_in/confirm")
     end
   end

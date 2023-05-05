@@ -1,7 +1,12 @@
 defmodule Ciao.Query do
+  @moduledoc """
+  Basic macro for creating queries. This is something I copied from other Elixir projects 
+  I've worked on, I'm not sure I love it so I haven't fully implmented all the handy 
+  query methods you might expect from this API - yet.
+  """
   alias __MODULE__
-  alias Ciao.Schema
   alias Ciao.Context
+  alias Ciao.Schema
 
   require Ecto.Query
 

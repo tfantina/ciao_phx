@@ -1,10 +1,10 @@
 defmodule Ciao.Account.SignInComponent do
   @moduledoc false
   alias Ciao.Accounts
-  alias Ciao.Accounts.{User, SignIn}
+  alias Ciao.Accounts.{SignIn, User}
 
-  import Phoenix.HTML.Form
   import Ciao
+  import Phoenix.HTML.Form
 
   use Phoenix.LiveComponent
 

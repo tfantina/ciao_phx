@@ -1,15 +1,17 @@
 defmodule Ciao.Accounts.UserNotifier do
+  @moduledoc false
   import Swoosh.Email
 
   alias Ciao.Mailer
 
   # Delivers the email using the application mailer.
   defp deliver(recipient, subject, body) do
-    email = new() 
-            |> to(recipient) 
-            |> from({"Ciao", "no-reply@ciaoplace.com"}) 
-            |> subject(subject) 
-            |> text_body(body)
+    email =
+      new()
+      |> to(recipient)
+      |> from({"Ciao", "no-reply@ciaoplace.com"})
+      |> subject(subject)
+      |> text_body(body)
 
     with {:ok, _metadata} <- Mailer.deliver(email) do
       {:ok, email}

@@ -84,10 +84,9 @@ if config_env() == :prod do
 
   config :ciao, Config.URL, root_url: "https://ciaoplace.com"
 
+  config :ciao, Ciao.Mailer,
+    adapter: Swoosh.Adapters.Sendgrid,
+    api_key: System.get_env("SENDGRID_KEY")
 
-config :ciao, Ciao.Mailer,
-  adapter: Swoosh.Adapters.Sendgrid,
-  api_key: System.get_env("SENDGRID_KEY")
-
-config :swoosh, :api_client, Swoosh.ApiClient.Hackney
+  config :swoosh, :api_client, Swoosh.ApiClient.Hackney
 end

@@ -1,7 +1,7 @@
 defmodule CiaoWeb.PlaceLive.Index do
   alias Ciao.{Accounts, Places, Posts}
-  alias CiaoWeb.PlaceView
   alias Ciao.Places.Place
+  alias CiaoWeb.PlaceView
   alias Phoenix.LiveView
   import Ciao
   use LiveView

@@ -1,4 +1,12 @@
 defmodule Ciao.Images.ImageRecord do
+  @moduledoc """
+  Base Image - when a user uploads an image an `ImageRecord` is created, this contains 
+  the original upload key (to locate the OG image in S3 storge), the size of the image 
+  and and associates it with `ImageVariants` which are scaled versions of the image.
+
+  The name `ImageRecord` is a bit verbose, this was renamed because Ciao uses the 
+  `Image` project to resize image and importing/aliasing both was confusing. 
+  """
   alias Ciao.Accounts.User
   alias Ciao.Images.ImageVariant
   alias Ciao.Places.Place

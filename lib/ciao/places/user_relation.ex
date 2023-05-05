@@ -13,7 +13,6 @@ defmodule Ciao.Places.UserRelation do
     belongs_to :user, User
     belongs_to :place, Place
 
-
     timestamps()
   end
 

@@ -70,7 +70,7 @@ config :ciao, CiaoWeb.Endpoint,
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
- 
+
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
@@ -97,5 +97,4 @@ config :ciao, Ciao.Images.PlaceImages,
 
 config :ciao, Config.URL, root_url: "http://localhost:4000"
 
-config :ciao, Ciao.Mailer,
-  adapter: Swoosh.Adapters.Local
+config :ciao, Ciao.Mailer, adapter: Swoosh.Adapters.Local

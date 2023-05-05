@@ -1,4 +1,6 @@
 defmodule Ciao.Posts.Post do
+  @moduledoc false
+
   alias __MODULE__
   alias Ciao.Accounts.User
   alias Ciao.Images.{ImageRecord, PostImages}

@@ -1,7 +1,8 @@
 defmodule Ciao.Storage.S3Provider do
   @moduledoc false
-  alias ExAws.S3
   alias Ciao.Storage.Provider
+  alias ExAws.S3
+
   import Ciao
 
   require Logger

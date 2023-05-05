@@ -1,4 +1,7 @@
 defmodule Ciao.Accounts.Invites do
+  @moduledoc """
+  Context for user invites
+  """
   alias Ciao.Accounts.Invite
   import Ecto.Query
 

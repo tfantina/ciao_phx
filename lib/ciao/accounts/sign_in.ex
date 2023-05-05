@@ -1,4 +1,9 @@
 defmodule Ciao.Accounts.SignIn do
+  @moduledoc """
+  Validation to find a user by their email 
+  This should be refactored, I think using a Struct would be more elegant than 
+  an `embedded_schema`.
+  """
   alias __MODULE__
 
   import Ecto.Changeset

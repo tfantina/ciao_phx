@@ -1,8 +1,12 @@
 defmodule Ciao.Places.Place do
+  @moduledoc false
+
   alias __MODULE__
+  alias Ciao.Images.ImageRecord
   alias Ciao.Places.UserRelation
-    alias Ciao.Images.ImageRecord
+
   import Ecto.Changeset
+
   use Ciao.Schema
 
   schema "places" do
@@ -13,7 +17,6 @@ defmodule Ciao.Places.Place do
 
     has_many :user_relations, UserRelation
     has_many :place_pics, ImageRecord
-
 
     timestamps()
   end

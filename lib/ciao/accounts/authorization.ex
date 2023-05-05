@@ -1,8 +1,8 @@
 defmodule Ciao.Accounts.Authorization do
   @moduledoc false
   alias Ciao.{Accounts, Places}
-  alias Phoenix.LiveView
   alias CiaoWeb.Router.Helpers, as: Routes
+  alias Phoenix.LiveView
 
   import Ciao
 

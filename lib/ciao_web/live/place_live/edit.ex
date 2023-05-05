@@ -1,7 +1,7 @@
 defmodule CiaoWeb.PlacesLive.Edit do
   alias Ciao.{Accounts, Places}
-  alias Ciao.Places.Place
   alias Ciao.Accounts.Authorization
+  alias Ciao.Places.Place
   alias CiaoWeb.PlaceView
 
   alias Phoenix.LiveView

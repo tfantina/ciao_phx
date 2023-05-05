@@ -1,4 +1,5 @@
 defmodule Ciao.Accounts.Invite do
+  @moduledoc false
   alias Ciao.Accounts.User
   alias Ciao.Places.{Place, UserRelation}
   alias __MODULE__

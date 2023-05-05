@@ -1,9 +1,7 @@
 defmodule CiaoWeb.PlaceView do
-  alias Ciao.PlacesLive.PostComponent
-  alias Ciao.PlacesLive.Forms
+  alias Ciao.PlacesLive.{Forms, PostComponent}
   alias Phoenix.LiveView.UploadEntry
-  alias Ciao.Images.PostImages
-  alias Ciao.Images.ImageVariant
+  alias Ciao.Images.{ImageVariant, PlaceImages, PostImages}
   alias Ciao.Workers.ImageWorker
 
   import Ciao.PlacesLive.UploadComponent, only: [uploader: 1]
@@ -15,18 +13,19 @@ defmodule CiaoWeb.PlaceView do
 
   def display_image(%{image_variants: [_ | _] = variants, domain: domain} = img, size) do
     case Enum.find(variants, &(&1.dimensions == size)) do
-      %ImageVariant{key: key} -> 
-      render_img(key, domain)
-      _ -> 
-      ImageWorker.new_resize_images(%{domain: domain, id: img.id}) |> Oban.insert()
-      render_img(img.key, domain)
+      %ImageVariant{key: key} ->
+        render_img(key, domain)
+
+      _ ->
+        ImageWorker.new_resize_images(%{domain: domain, id: img.id}) |> Oban.insert()
+        render_img(img.key, domain)
     end
   end
 
   def display_image(%{domain: domain} = img, _), do: render_img(img.key, domain)
 
   defp render_img(key, "post") do
-    case Ciao.Images.PostImages.url(key) do
+    case PostImages.url(key) do
       {:ok, {_, url}} ->
         img_tag(url)
 
@@ -35,8 +34,8 @@ defmodule CiaoWeb.PlaceView do
     end
   end
 
-    defp render_img(key, "place") do
-    case Ciao.Images.PlaceImages.url(key) do
+  defp render_img(key, "place") do
+    case PlaceImages.url(key) do
       {:ok, {_, url}} ->
         img_tag(url)
 

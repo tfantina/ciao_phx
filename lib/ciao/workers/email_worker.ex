@@ -6,8 +6,8 @@ defmodule Ciao.Workers.EmailWorker do
   alias Ciao.Accounts.{Invites, UserNotifier, UserToken}
   alias Ciao.Repo
   alias Ciao.URL
-  alias Oban.{Job, Worker}
   alias Ecto.Multi
+  alias Oban.{Job, Worker}
 
   import Ciao
 

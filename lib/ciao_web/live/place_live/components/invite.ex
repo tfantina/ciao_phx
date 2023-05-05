@@ -65,7 +65,7 @@ defmodule Ciao.PlaceLive.InviteComponent do
     Places.add_user(user.id, place.id, invitee, role)
 
     socket
-    #|> put_flash("successfully invited user")
+    # |> put_flash("successfully invited user")
     |> assign(:visible, false)
     |> noreply()
   end
