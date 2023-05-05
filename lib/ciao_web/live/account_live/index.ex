@@ -1,7 +1,7 @@
 defmodule CiaoWeb.AccountLive.Index do
   alias Ciao.Accounts
-  alias CiaoWeb.AccountView
   alias Ciao.Images.ImageRecord
+  alias CiaoWeb.AccountView
   alias Phoenix.LiveView
 
   import Ciao

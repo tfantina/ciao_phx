@@ -1,22 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&display=swap');
+[data-theme="light"], :root:not([data-theme="dark"]) {
+    --default_font: 'Montserrat', 'Helvetica Neue', 'Arial', sans-serif;
+    --default_font_size: 18px;
+    --lg_font_size: 20px;
+    --info_font_size: 16px;
+    --header_1_font_size: 36px;
+    --header_2_font_size: 28px;
+    --header_3_font_size: 24px;
+    --header_4_font_size: 20px;
 
-$default_font: 'Montserrat', 'Helvetica Neue', 'Arial', sans-serif;
-$default_font_size: 18px;
-$lg_font_size: 20px;
-$info_font_size: 16px;
-$header_1_font_size: 24px;
-$header_2_font_size: 20px;
-$header_3_font_size: 18px;
+    //colors
 
-$primary: #1ca060;
-$primary-accent--lite: #eafbf5;
-$secondary-accent--lite: #eaf7fb;
-$tertiary-accent: #fafbfb;
+    --primary: hsl(141, 67%, 91%);
+    --primary-dark: hsl(153, 48%, 16%);
+    --primary-ghost: hsla(156, 8%, 20%, 20%);
+
+}
 
 
 
 body {
-    font-family: $default_font;
-    font-size: $default_font_size;
+    font-family: var(--default_font);
+    font-size: var(--default_font_size);
     font-weight: 400;
+}
+
+a, h1, h2, h3, h4 {
+ color: var(--primary-dark);
+}
+
+h1 {
+  font-size: var(--header_1_font_size);
+  line-height: calc(var(--header_1_font_size) * 1.6);
+  margin: 0;
+}
+
+
+h2 {
+    font-size: var(--header_2_font_size);
+    line_height: calc(var(--header_2_font_size) * 1.4);
+    margin: 0;
+}
+
+
+h3 {
+    font-size: var(--header_3_font_size);
+    line_height: calc(var(--header_3_font_size) * 1.4);
+    margin: 0;
+}
+
+
+[role=button], button, input[type=button], input[type=reset], input[type=submit] {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
 }

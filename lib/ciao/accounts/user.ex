@@ -1,6 +1,8 @@
 defmodule Ciao.Accounts.User do
-  alias Ciao.Places.UserRelation
+  @moduledoc false
+
   alias Ciao.Images.ImageRecord
+  alias Ciao.Places.UserRelation
   import Ecto.Changeset
   use Ciao.Schema
 
@@ -41,7 +43,8 @@ defmodule Ciao.Accounts.User do
     |> validate_password(opts)
   end
 
-  defp validate_email(changeset) do
+  @doc "validates a changeset email"
+  def validate_email(changeset) do
     changeset
     |> validate_required([:email])
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")

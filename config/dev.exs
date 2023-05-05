@@ -89,4 +89,12 @@ config :ciao, Ciao.Images.PostImages,
   relative: "priv/static/images/posts",
   url_prefix: "/pics"
 
+config :ciao, Ciao.Images.PlaceImages,
+  provider: Ciao.Storage.LocalProvider,
+  root: Path.expand(Path.join(__DIR__, "../priv/static/images/places")),
+  relative: "priv/static/images/places",
+  url_prefix: "/pics"
+
 config :ciao, Config.URL, root_url: "http://localhost:4000"
+
+config :ciao, Ciao.Mailer, adapter: Swoosh.Adapters.Local

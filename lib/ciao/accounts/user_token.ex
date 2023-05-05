@@ -1,4 +1,5 @@
 defmodule Ciao.Accounts.UserToken do
+  @moduledoc false
   use Ciao.Schema
   import Ecto.Query
   alias Ciao.Accounts.UserToken
@@ -13,6 +14,7 @@ defmodule Ciao.Accounts.UserToken do
   @invite_validity_in_days 14
   @change_email_validity_in_days 7
   @session_validity_in_days 60
+  @sign_in_validity_in_days 0.0104
 
   schema "users_tokens" do
     field :token, :binary
@@ -130,6 +132,7 @@ defmodule Ciao.Accounts.UserToken do
   defp days_for_context("confirm"), do: @confirm_validity_in_days
   defp days_for_context("reset_password"), do: @reset_password_validity_in_days
   defp days_for_context("invite"), do: @invite_validity_in_days
+  defp days_for_context("sign_in"), do: @sign_in_validity_in_days
 
   @doc """
   Checks if the token is valid and returns its underlying lookup query.

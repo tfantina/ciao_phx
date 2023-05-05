@@ -1,4 +1,5 @@
 defmodule Ciao.Context do
+  @moduledoc false
   require Ciao.Query
 
   def get(context, id, opts) do

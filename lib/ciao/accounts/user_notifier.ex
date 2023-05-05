@@ -1,4 +1,5 @@
 defmodule Ciao.Accounts.UserNotifier do
+  @moduledoc false
   import Swoosh.Email
 
   alias Ciao.Mailer
@@ -8,7 +9,7 @@ defmodule Ciao.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"Ciao", "no-reply@ciao.com"})
+      |> from({"Ciao", "no-reply@ciaoplace.com"})
       |> subject(subject)
       |> text_body(body)
 
@@ -72,6 +73,28 @@ defmodule Ciao.Accounts.UserNotifier do
     #{url}
 
     If you didn't request this change, please ignore this.
+
+    ==============================
+    """)
+  end
+
+  @doc """
+  Deliver email to sign in user
+  """
+  def deliver_magic_code(user, url) do
+    deliver(user.email, "Ciao, come on in!", """
+    ==============================
+
+    Hi #{user.email},
+
+    You are receiving this because you or someone with your email address just
+    attempted to sign into Ciao. Please follow the link below to be automatically
+    signed in within the next 10 minutes.
+
+    #{url}
+
+    If you did not just try to sign in please be sure your email is secure and
+    this email.
 
     ==============================
     """)

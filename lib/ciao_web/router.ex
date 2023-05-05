@@ -4,36 +4,41 @@ defmodule CiaoWeb.Router do
   import CiaoWeb.UserAuth
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, {CiaoWeb.LayoutView, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-    plug :fetch_current_user
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_live_flash)
+    plug(:put_root_layout, {CiaoWeb.LayoutView, :root})
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers, %{"content-security-policy" => "default-src 'self'"})
+    plug(:fetch_current_user)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   pipeline :live_pipeline do
-    plug :put_layout, {CiaoWeb.LayoutView, :live}
-    plug :require_authenticated_user
+    plug(:put_layout, {CiaoWeb.LayoutView, :live})
+    plug(:require_authenticated_user)
+  end
+
+  pipeline :live_pipeline_unauthenticated do
+    plug(:put_layout, {CiaoWeb.LayoutView, :live})
   end
 
   scope "/", CiaoWeb do
-    pipe_through :browser
+    pipe_through([:browser, :live_pipeline_unauthenticated])
 
-    get "/", PageController, :index
+    live("/", PageLive.Index)
+    live("/log_in", PageLive.LogIn)
   end
 
   scope "/app", CiaoWeb do
-    pipe_through [:browser, :live_pipeline]
+    pipe_through([:browser, :live_pipeline])
 
-    live "/places", PlaceLive.Index
-    live "/places/:id_or_slug", PlaceLive.Show
-    live "/account", AccountLive.Index
+    live("/places", PlaceLive.Index)
+    live("/places/:id_or_slug", PlaceLive.Show)
+    live("/account", AccountLive.Index)
   end
 
   # Other scopes may use custom stacks.
@@ -52,9 +57,9 @@ defmodule CiaoWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
+      pipe_through(:browser)
 
-      live_dashboard "/dashboard", metrics: CiaoWeb.Telemetry
+      live_dashboard("/dashboard", metrics: CiaoWeb.Telemetry)
     end
   end
 
@@ -64,47 +69,49 @@ defmodule CiaoWeb.Router do
   # node running the Phoenix server.
   if Mix.env() == :dev do
     scope "/dev" do
-      pipe_through :browser
+      pipe_through(:browser)
 
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
+      forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end
   end
 
   ## Authentication routes
 
   scope "/", CiaoWeb do
-    pipe_through [:browser, :redirect_if_user_is_authenticated]
+    pipe_through([:browser, :redirect_if_user_is_authenticated])
 
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
-    get "/users/log_in", UserSessionController, :new
-    post "/users/log_in", UserSessionController, :create
-    get "/users/reset_password", UserResetPasswordController, :new
-    post "/users/reset_password", UserResetPasswordController, :create
-    get "/users/reset_password/:token", UserResetPasswordController, :edit
-    put "/users/reset_password/:token", UserResetPasswordController, :update
+    get("/users/register", UserRegistrationController, :new)
+    post("/users/register", UserRegistrationController, :create)
+    get("/users/log_in", UserSessionController, :new)
+    post("/users/log_in", UserSessionController, :create)
+    get("/users/reset_password", UserResetPasswordController, :new)
+    post("/users/reset_password", UserResetPasswordController, :create)
+    get("/users/reset_password/:token", UserResetPasswordController, :edit)
+    put("/users/reset_password/:token", UserResetPasswordController, :update)
   end
 
   scope "/", CiaoWeb do
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through([:browser, :require_authenticated_user])
 
-    get "/users/settings", UserSettingsController, :edit
-    put "/users/settings", UserSettingsController, :update
-    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+    get("/users/settings", UserSettingsController, :edit)
+    put("/users/settings", UserSettingsController, :update)
+    get("/users/settings/confirm_email/:token", UserSettingsController, :confirm_email)
   end
 
   scope "/", CiaoWeb do
-    pipe_through [:browser]
-    get "/users/invite/:token", UserInviteController, :create
+    pipe_through([:browser])
+    get("/users/invite/:token", UserInviteController, :create)
   end
 
   scope "/", CiaoWeb do
-    pipe_through [:browser]
+    pipe_through([:browser])
 
-    delete "/users/log_out", UserSessionController, :delete
-    get "/users/confirm", UserConfirmationController, :new
-    post "/users/confirm", UserConfirmationController, :create
-    get "/users/confirm/:token", UserConfirmationController, :edit
-    post "/users/confirm/:token", UserConfirmationController, :update
+    delete("/users/log_out", UserSessionController, :delete)
+    get("/users/confirm", UserConfirmationController, :new)
+    post("/users/confirm", UserConfirmationController, :create)
+    get("/users/confirm/:token", UserConfirmationController, :edit)
+    post("/users/confirm/:token", UserConfirmationController, :update)
+    get("/users/sign_in/confirm", UserSessionController, :magic)
+    get("/users/sign_in/:token", UserSessionController, :sign_in)
   end
 end

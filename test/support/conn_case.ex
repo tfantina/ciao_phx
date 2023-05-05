@@ -14,6 +14,9 @@ defmodule CiaoWeb.ConnCase do
   by setting `use CiaoWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
+  alias Ciao.{Accounts, AccountsFixtures, Repo}
+  alias Ecto.Adapters.SQL.Sandbox
+  alias Phoenix.ConnTest
 
   use ExUnit.CaseTemplate
 
@@ -32,9 +35,9 @@ defmodule CiaoWeb.ConnCase do
   end
 
   setup tags do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Ciao.Repo, shared: not tags[:async])
-    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    pid = Sandbox.start_owner!(Repo, shared: not tags[:async])
+    on_exit(fn -> Sandbox.stop_owner(pid) end)
+    {:ok, conn: ConnTest.build_conn()}
   end
 
   @doc """
@@ -46,7 +49,7 @@ defmodule CiaoWeb.ConnCase do
   test context.
   """
   def register_and_log_in_user(%{conn: conn}) do
-    user = Ciao.AccountsFixtures.user_fixture()
+    user = AccountsFixtures.user_fixture()
     %{conn: log_in_user(conn, user), user: user}
   end
 
@@ -56,10 +59,10 @@ defmodule CiaoWeb.ConnCase do
   It returns an updated `conn`.
   """
   def log_in_user(conn, user) do
-    token = Ciao.Accounts.generate_user_session_token(user)
+    token = Accounts.generate_user_session_token(user)
 
     conn
-    |> Phoenix.ConnTest.init_test_session(%{})
+    |> ConnTest.init_test_session(%{})
     |> Plug.Conn.put_session(:user_token, token)
   end
 end

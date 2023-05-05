@@ -1,4 +1,7 @@
 defmodule Ciao.Places do
+  @moduledoc """
+  Context for Places
+  """
   alias Ciao.Accounts
   alias Ciao.Accounts.{Invite, User}
   alias Ciao.Places.{Place, UserRelation}
@@ -10,7 +13,6 @@ defmodule Ciao.Places do
   import Ecto.Query
 
   use Ciao.Query, for: Place
-
   @multi Multi.new()
 
   def fetch_all_for_user(user) do
@@ -22,8 +24,10 @@ defmodule Ciao.Places do
 
   def fetch_users_for_place(place) do
     User
-    |> join(:left, [u], ur in UserRelation, on: u.place_id)
+    |> join(:left, [u], ur in UserRelation, on: u.id == ur.user_id)
     |> where([_u, ur], ur.place_id == ^place.id)
+    |> preload(:user_relations)
+    |> order_by([_u, ur], [ur.role])
     |> Repo.all()
   end
 

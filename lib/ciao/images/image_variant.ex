@@ -1,4 +1,7 @@
 defmodule Ciao.Images.ImageVariant do
+  @moduledoc """
+  A downsized copy of an `ImageRecord`
+  """
   alias Ciao.Images.ImageRecord
   alias __MODULE__
 

@@ -1,13 +1,7 @@
-<.form for={@new_changeset} let={f}  phx-submit={"create_place"} >
-    <%= label f, :name %>
-    <%= text_input f, :name %>
-    <%= label f, :description %>
-    <%= text_input f, :description %>
-    <%= label f, :slug %>
-    <%= text_input f, :slug %>
-    <%= submit "Create" %>
-</.form>
-
+<button phx-click={:toggle_form}>Create Place</button>
+<%= if @new_place do %>
+    <Forms.place_form changeset={@new_place} />
+<% end %>
 <ul>
     <%= for place <- @places do %>
         <li>
@@ -15,3 +9,11 @@
         </li>
     <% end %>
 </ul>
+
+
+<%= for post <- @posts do %>
+        <.live_component module={PostComponent} id={"post-#{post.id}"} post={post} user={@user}/>
+<% end %>
+<%= unless Enum.empty?(@posts) do %>
+    <a href="#" phx-click={:load_more} phx-value-from={@from}>Load More</a>
+<% end %>

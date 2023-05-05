@@ -5,3 +5,8 @@
 // site specifics
 @use 'scss/globals';
 @use 'scss/post';
+@use 'scss/layout';
+@use 'scss/glide';
+
+// extensions
+@import '../js/node_modules/@glidejs/glide/src/assets/sass/glide.core';

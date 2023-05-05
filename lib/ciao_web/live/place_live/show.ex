@@ -1,13 +1,12 @@
 defmodule CiaoWeb.PlaceLive.Show do
   alias Ciao.{Accounts, Places, Posts}
+  alias Ciao.Accounts.Authorization
   alias Ciao.Images.{ImageRecord, PostImages}
   alias Ciao.Posts.Post
-  alias Ciao.Accounts.Authorization
+  alias Ciao.Repo
   alias CiaoWeb.PlaceView
   alias Ecto.{Multi, UUID}
-
   alias Phoenix.LiveView
-  alias Ciao.Repo
 
   import Ciao
   import Ciao.EctoSupport
@@ -67,15 +66,16 @@ defmodule CiaoWeb.PlaceLive.Show do
     |> Repo.transaction()
     |> case do
       {:ok, %{insert_images: images, post: post}} ->
-        socket
-        |> noreply()
+        post =
+          post
+          |> Repo.preload(:images)
 
         posts = [post] ++ socket.assigns.posts
 
         socket
         |> put_flash(:success, "Post created and saved to place!")
         |> assign(:posts, posts)
-        |> noreply
+        |> noreply()
 
       _ ->
         socket

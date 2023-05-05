@@ -1,7 +1,8 @@
 defmodule Ciao.Storage.S3Provider do
   @moduledoc false
-  alias ExAws.S3
   alias Ciao.Storage.Provider
+  alias ExAws.S3
+
   import Ciao
 
   require Logger
@@ -15,8 +16,6 @@ defmodule Ciao.Storage.S3Provider do
 
   @impl true
   def url(%{bucket: bucket} = config, key, opts \\ []) do
-    Logger.info(label: "OK?")
-
     if Keyword.get(opts, :static_url, false) do
       "https://ciaoplace.com/images"
       |> Path.join(key)
@@ -26,8 +25,11 @@ defmodule Ciao.Storage.S3Provider do
       |> s3_config()
       |> S3.presigned_url(:get, bucket, key, opts)
       |> case do
-        {:ok, url} -> ok({:remote, url})
-        {:error, _} = err -> err
+        {:ok, url} ->
+          ok({:remote, url})
+
+        {:error, _} = err ->
+          err
       end
     end
   end
@@ -92,7 +94,6 @@ defmodule Ciao.Storage.S3Provider do
 
   defp s3_config(config) do
     config = Map.take(config, [:region, :access_key_id, :secret_access_key])
-
     ExAws.Config.new(:s3, config)
   end
 end

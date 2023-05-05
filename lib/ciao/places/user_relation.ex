@@ -9,6 +9,7 @@ defmodule Ciao.Places.UserRelation do
 
   schema "user_relations" do
     field :role, :string
+    field :pending, :boolean, default: true
     belongs_to :user, User
     belongs_to :place, Place
 

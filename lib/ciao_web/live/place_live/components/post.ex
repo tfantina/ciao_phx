@@ -22,9 +22,26 @@ defmodule Ciao.PlacesLive.PostComponent do
       <div class="post d-flex f-col">
       <div class="content row">
         <%= if @post.images != [] do %>
-          <%= for img <- @post.images do %>
-            <%= PlaceView.display_image(img) %>
-          <% end %>
+          <div class="glide" phx-hook="glideHook" id={"images-post-#{@post.id}"}>
+            <div class="glide__track" data-glide-el="track">
+              <ul class="glide__slides">
+                <%= for img <- @post.images do %>
+                  <li class="glide__slide"><%= PlaceView.display_image(img, "1000x1000") %></li>
+                <% end %>
+              </ul>
+            </div>
+            <%= if length(@post.images) > 1 do %>
+            <div class="glide__arrows f-row justify-between" data-glide-el="controls">
+              <button class="glide__arrow glide__arrow--left" data-glide-dir="<">&#x2190;</button>
+              <button class="glide__arrow glide__arrow--right" data-glide-dir=">">&#x2192;</button>
+            </div>
+             <div class="glide__bullets f-row justify-center" data-glide-el="controls[nav]">
+              <%=  for i <- Enum.into(0..length(@post.images) - 1, []) do %> 
+                <button class="glide__bullet" data-glide-dir={"=#{i}"}></button>
+              <% end %>
+            </div>
+            <% end %>
+          </div>
         <% end %>
           <%= @post.body %>
         </div>

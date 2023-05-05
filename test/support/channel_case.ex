@@ -14,6 +14,8 @@ defmodule CiaoWeb.ChannelCase do
   by setting `use CiaoWeb.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
+  alias Ciao.Repo
+  alias Ecto.Adapters.SQL.Sandbox
 
   use ExUnit.CaseTemplate
 
@@ -29,8 +31,8 @@ defmodule CiaoWeb.ChannelCase do
   end
 
   setup tags do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Ciao.Repo, shared: not tags[:async])
-    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+    pid = Sandbox.start_owner!(Repo, shared: not tags[:async])
+    on_exit(fn -> Sandbox.stop_owner(pid) end)
     :ok
   end
 end
