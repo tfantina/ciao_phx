@@ -20,11 +20,11 @@
 .col-10,
 .col-11,
 .col-12 {
-  display: flex;
-  @include m.justify-content(center);
-  box-sizing: border-box;
-  @include m.pad-y(0.5rem);
-  @include m.pad-x(0.5rem);
+  // display: flex;
+  // @include m.justify-content(center);
+  // box-sizing: border-box;
+  // @include m.pad-y(0.5rem);
+  // @include m.pad-x(0.5rem);
 }
 
 .section {

@@ -9,11 +9,14 @@
         </li>
     <% end %>
 </ul>
+<div class="f-col align-center">
+        <%= for post <- @posts do %>
+        <div class="col-12 col-sm-8 col-md-6">
+                    <.live_component module={PostComponent} id={"post-#{post.id}"} post={post} user={@user}/>
+         </div>
+        <% end %>
+        <%= unless Enum.empty?(@posts) do %>
+            <a href="#" phx-click={:load_more} phx-value-from={@from}>Load More</a>
+        <% end %>
 
-
-<%= for post <- @posts do %>
-        <.live_component module={PostComponent} id={"post-#{post.id}"} post={post} user={@user}/>
-<% end %>
-<%= unless Enum.empty?(@posts) do %>
-    <a href="#" phx-click={:load_more} phx-value-from={@from}>Load More</a>
-<% end %>
+</div>

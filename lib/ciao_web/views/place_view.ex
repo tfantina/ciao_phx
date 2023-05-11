@@ -5,24 +5,22 @@ defmodule CiaoWeb.PlaceView do
   alias Ciao.Workers.ImageWorker
 
   import Ciao.PlacesLive.UploadComponent, only: [uploader: 1]
-
+  require Logger
   use CiaoWeb, :view
 
   def show_images(%UploadEntry{} = image, opts \\ []), do: live_img_preview(image, opts)
   def show_images(_, _opts), do: "No images"
 
-  def display_image(%{image_variants: [_ | _] = variants, domain: domain} = img, size) do
+  def display_image(%{image_variants: variants, domain: domain} = img, size) do
     case Enum.find(variants, &(&1.dimensions == size)) do
-      %ImageVariant{key: key} ->
+      %ImageVariant{key: key} = variant ->
         render_img(key, domain)
 
       _ ->
-        ImageWorker.new_resize_images(%{domain: domain, id: img.id}) |> Oban.insert()
+          ImageWorker.new_resize_images(%{domain: domain, id: img.id}) |> Oban.insert()
         render_img(img.key, domain)
     end
   end
-
-  def display_image(%{domain: domain} = img, _), do: render_img(img.key, domain)
 
   defp render_img(key, "post") do
     case PostImages.url(key) do

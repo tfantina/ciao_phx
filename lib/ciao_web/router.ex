@@ -9,7 +9,7 @@ defmodule CiaoWeb.Router do
     plug(:fetch_live_flash)
     plug(:put_root_layout, {CiaoWeb.LayoutView, :root})
     plug(:protect_from_forgery)
-    plug(:put_secure_browser_headers, %{"content-security-policy" => "default-src 'self'"})
+    plug(:put_secure_browser_headers, %{"content-security-policy" => "default-src 'self'\ img-src 'self' * data: image;"})
     plug(:fetch_current_user)
   end
 
