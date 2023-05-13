@@ -1,7 +1,7 @@
 defmodule CiaoWeb.UserSessionController do
   use CiaoWeb, :controller
 
-  alias Ciao.Accounts
+  alias Ciao.{Accounts, URL}
   alias Ciao.Workers.EmailWorker
   alias CiaoWeb.UserAuth
 
@@ -18,10 +18,10 @@ defmodule CiaoWeb.UserSessionController do
     end
   end
 
-  def create(conn, %{"user" => %{"email" => email} = user_params}) do
+  def create(conn, %{"user" => %{"email" => email, "remember_me" => remember} = user_params}) do
     if user = Accounts.get_user_by_email(email) do
       user
-      |> EmailWorker.new_sign_in_from_email(nil)
+      |> EmailWorker.new_sign_in_from_email(remember)
       |> Oban.insert()
 
       redirect(conn, to: "/users/sign_in/confirm")
@@ -32,8 +32,9 @@ defmodule CiaoWeb.UserSessionController do
   end
 
   def sign_in(conn, %{"token" => token}) do
+    {token, remember} = URL.get_remember_token(token)
     if user = Accounts.get_user_by_token(token, "sign_in") do
-      UserAuth.log_in_user(conn, user)
+      UserAuth.log_in_user(conn, user, %{"remember_me" => remember})
     else
       conn
       |> redirect(to: "/")
