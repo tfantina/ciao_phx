@@ -1,5 +1,6 @@
 defmodule CiaoWeb.AccountLive.Index do
   alias Ciao.Accounts
+  alias Ciao.Accounts.UserSettings
   alias Ciao.Images.ImageRecord
   alias CiaoWeb.AccountView
   alias Phoenix.LiveView
@@ -15,6 +16,8 @@ defmodule CiaoWeb.AccountLive.Index do
     socket
     |> assign(:user, user)
     |> assign(:photo, nil)
+    |> assign(:password_form, UserSettings.changeset(%{login_preference: user.login_preference}))
+    |> assign(:login_changeset, Accounts.change_user_login(user))
     |> assign(:image_changeset, ImageRecord.image_changeset())
     |> allow_upload(:profile_pic,
       accept: ~w[.jpg .jpeg .png .gif],
@@ -48,6 +51,12 @@ defmodule CiaoWeb.AccountLive.Index do
         socket
         |> noreply()
     end
+  end
+
+  def handle_event("update_password", %{"user_settings" => params}, socket) do
+    socket
+    |> assign(:password_form, UserSettings.changeset(params))
+    |> noreply()
   end
 
   defp get_image(%{entries: entries}, ref) do

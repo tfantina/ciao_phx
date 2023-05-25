@@ -38,7 +38,7 @@ defmodule Ciao.Posts do
     |> scope_recent(Keyword.get(opts, :from))
     |> order_by([post: p], desc: :inserted_at)
     |> limit(20)
-    |> preload([:user, :images, comments: [:user]])
+    |> preload([:user, images: [:image_variants], comments: [:user]])
     |> Repo.all()
   end
 

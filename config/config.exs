@@ -21,6 +21,7 @@ config :ciao, CiaoWeb.Endpoint,
 config :swoosh, :api_client, false
 
 config :ciao, Oban,
+  plugins: [{Oban.Plugins.Pruner, max_age: 800_000}],
   repo: Ciao.Repo,
   queues: [images: 1, mailer: 5]
 

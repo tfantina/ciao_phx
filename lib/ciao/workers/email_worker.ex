@@ -18,7 +18,8 @@ defmodule Ciao.Workers.EmailWorker do
   @multi Multi.new()
 
   @impl Oban.Worker
-  def perform(%Job{args: %{"task" => "sign_in_user", "user_id" => id}}), do: send_sign_in(id)
+  def perform(%Job{args: %{"task" => "sign_in_user", "user_id" => id, "remember_me" => remember}}),
+    do: send_sign_in(id, remember)
 
   def perform(%Job{args: %{"task" => "invite_user", "invite_id" => id}}),
     do: send_invite_welcome(id)
@@ -29,7 +30,7 @@ defmodule Ciao.Workers.EmailWorker do
   # Job creators
   #
   def new_sign_in_from_email(user, params),
-    do: new(%{"task" => "sign_in_user", "user_id" => user.id})
+    do: new(%{"task" => "sign_in_user", "user_id" => user.id, "remember_me" => params})
 
   def new_email_invite(invite, nil), do: new(%{"task" => "invite_user", "invite_id" => invite.id})
 
@@ -38,8 +39,8 @@ defmodule Ciao.Workers.EmailWorker do
   #
   # Job handlers
   #
-  @spec send_sign_in(UUID.t()) :: :ok
-  def send_sign_in(id) do
+  @spec send_sign_in(UUID.t(), String.t()) :: :ok
+  def send_sign_in(id, remember) do
     @multi
     |> put_multi_value(:user, Accounts.get_user!(id))
     |> Multi.run(:token, fn _, %{user: user} ->
@@ -51,7 +52,7 @@ defmodule Ciao.Workers.EmailWorker do
       user_token
     end)
     |> Multi.run(:send_notification, fn _, %{user: user, token: {encoded_token, _}} ->
-      UserNotifier.deliver_magic_code(user, URL.build_magic_url(encoded_token))
+      UserNotifier.deliver_magic_code(user, URL.build_magic_url(encoded_token, remember))
     end)
     |> Repo.transaction()
   end

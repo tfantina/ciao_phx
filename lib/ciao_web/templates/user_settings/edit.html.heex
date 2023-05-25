@@ -24,7 +24,7 @@
   </div>
 </.form>
 
-<h3>Change password</h3>
+<h3>Password Settings</h3>
 
 <.form let={f} for={@password_changeset} action={Routes.user_settings_path(@conn, :update)} id="update_password">
   <%= if @password_changeset.action do %>
@@ -51,3 +51,33 @@
     <%= submit "Change password" %>
   </div>
 </.form>
+
+<h3>Login Settings</h3>
+<%= if @user.login_preference == "password" do  %>
+  <.form let={f} for={@login_changeset} action={Routes.user_settings_path(@conn, :update)} id="set_login" %>
+    <%= hidden_input f, :action, name: "action", value: "update_login" %>
+    <div class="f-row">
+      <%= label f, :login_preference, "Sign in with Email rather than password:" %>
+      <%= checkbox f, :login_preference %>
+    </div>
+    <%= label f, :current_password, for: "current_password_for_password" %>
+    <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password" %>
+    <%= error_tag f, :current_password %>
+
+    <div>
+      <%= submit "Set login" %>
+    </div>
+  </.form>
+<% else %> 
+  <.form let={f} for={@login_changeset} action={Routes.user_settings_path(@conn, :update)} id="set_login_password" %>
+    <%= hidden_input f, :action, name: "action", value: "update_login_password" %>
+    <div class="f-row">
+      <%= label f, :login_preference, "Sign in with password:" %>
+      <%= checkbox f, :login_preference %>
+    </div>
+
+    <div>
+      <%= submit "Send confirmation email" %>
+    </div>
+  </.form>
+<% end %>

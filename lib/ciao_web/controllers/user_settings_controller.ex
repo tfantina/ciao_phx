@@ -4,7 +4,7 @@ defmodule CiaoWeb.UserSettingsController do
   alias Ciao.Accounts
   alias CiaoWeb.UserAuth
 
-  plug :assign_email_and_password_changesets
+  plug(:assign_email_and_password_changesets)
 
   def edit(conn, _params) do
     render(conn, "edit.html")
@@ -50,6 +50,44 @@ defmodule CiaoWeb.UserSettingsController do
     end
   end
 
+  def update(conn, %{"action" => "update_login"} = params) do
+    %{"current_password" => password, "user" => user_params} = params
+    user = conn.assigns.current_user
+
+    case Accounts.update_user_signin(user, password, user_params) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "You will now log in via a secure link in your email!")
+        |> put_session(:user_return_to, Routes.user_settings_path(conn, :edit))
+        |> UserAuth.log_in_user(user)
+
+      {:error, changeset} ->
+        render(conn, "edit.html", password_changeset: changeset)
+    end
+  end
+
+  def update(conn, %{"action" => "update_login_password"} = params) do
+    user = conn.assigns.current_user
+
+    if params["user"]["login_preference"] == "true" do
+      case Accounts.initiate_passworded_signin(
+             user,
+             &Routes.user_reset_password_url(conn, :new_login, &1)
+           ) do
+        {:ok, user} ->
+          conn
+          |> put_flash(:info, "You will be sent an email confirmation.")
+          |> redirect(to: Routes.user_settings_path(conn, :edit))
+
+        {:error, changeset} ->
+          render(conn, "edit.html", password_changeset: changeset)
+      end
+    else
+      conn
+      |> redirect(to: Routes.user_settings_path(conn, :edit))
+    end
+  end
+
   def confirm_email(conn, %{"token" => token}) do
     case Accounts.update_user_email(conn.assigns.current_user, token) do
       :ok ->
@@ -68,7 +106,9 @@ defmodule CiaoWeb.UserSettingsController do
     user = conn.assigns.current_user
 
     conn
+    |> assign(:user, user)
     |> assign(:email_changeset, Accounts.change_user_email(user))
     |> assign(:password_changeset, Accounts.change_user_password(user))
+    |> assign(:login_changeset, Accounts.change_user_login(user))
   end
 end

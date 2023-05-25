@@ -11,8 +11,9 @@ defmodule Ciao.Accounts.SignIn do
   use Ciao.Schema
 
   embedded_schema do
-    field :email
-    field :password
+    field :email, :string
+    field :password, :string
+    field :remember_me, :boolean
   end
 
   def changeset(params) do

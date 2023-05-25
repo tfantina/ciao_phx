@@ -50,7 +50,7 @@ defmodule Ciao.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.17.5"},
       {:phoenix_live_dashboard, "~> 0.6"},
-       {:sobelow, "~> 0.12", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.12", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 1.9.1"},
       {:sweet_xml, "~> 0.6"},
       {:telemetry_metrics, "~> 0.6"},

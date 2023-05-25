@@ -53,7 +53,7 @@ defmodule Ciao.Accounts.User do
     |> unique_constraint(:email)
   end
 
-  defp validate_password(changeset, opts) do
+  def validate_password(changeset, opts) do
     changeset
     |> validate_required([:password])
     |> validate_length(:password, min: 6, max: 72)
@@ -109,7 +109,29 @@ defmodule Ciao.Accounts.User do
     user
     |> cast(attrs, [:password])
     |> validate_confirmation(:password, message: "does not match password")
+    |> toggle_login(Keyword.get(opts, :switch_login, false))
     |> validate_password(opts)
+  end
+
+  defp toggle_login(changeset, false), do: changeset
+  defp toggle_login(changeset, true), do: changeset |> put_change(:login_preference, "password")
+
+  @doc """
+  Switches the user's password preference
+  """
+  def change_user_login(user, attrs, opts \\ []) do
+    login =
+      case Map.get(attrs, :login_preference) || Map.get(attrs, "login_preference") do
+        "true" -> "email"
+        "false" -> "password"
+        _ -> user.login_preference
+      end
+
+    attrs = %{login_preference: login}
+
+    user
+    |> cast(attrs, [:login_preference])
+    |> put_change(:hashed_password, nil)
   end
 
   @doc """
