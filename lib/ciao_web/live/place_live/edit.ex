@@ -17,7 +17,6 @@ defmodule CiaoWeb.PlacesLive.Edit do
   defp load_place(%{assigns: %{place: place}} = socket, _session, _params) do
     socket
     |> assign(:place_changeset, Place.update_changeset(place))
-
-    # p|> assign(:users, )
+    |> assign(:users, [])
   end
 end

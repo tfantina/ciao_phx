@@ -15,20 +15,19 @@ defmodule Ciao.URL do
     root <> "/users/sign_in/#{token}-#{remember(remember)}"
   end
 
-  defp remember("true"), do: @truval 
+  defp remember("true"), do: @truval
   defp remember("false"), do: @falval
 
   @spec get_remember_token(String.t()) :: tuple()
   def get_remember_token(token_str) do
-    IO.inspect(String.split(token_str, "-"), label: "SPLITTER")
-    case String.split(token_str, "-") do 
-      [token, remember] -> 
-          {token, decode_remember(remember)}
+    case String.split(token_str, "-") do
+      [token, remember] ->
+        {token, decode_remember(remember)}
 
-      [token] -> {token, "false"}
-    end 
-  end 
+      [token] ->
+        {token, "false"}
+    end
+  end
 
-  defp decode_remember(remember), do: 
-    if remember == @truval, do: "true", else: "false"
+  defp decode_remember(remember), do: if(remember == @truval, do: "true", else: "false")
 end

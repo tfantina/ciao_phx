@@ -227,6 +227,10 @@ defmodule Ciao.Accounts do
     User.password_changeset(user, attrs, hash_password: false)
   end
 
+  def change_user_login(user, attrs \\ %{}) do
+    User.change_user_login(user, attrs, hash_password: false)
+  end
+
   @doc """
   Updates the user password.
 
@@ -247,6 +251,43 @@ defmodule Ciao.Accounts do
 
     Ecto.Multi.new()
     |> Ecto.Multi.update(:user, changeset)
+    |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{user: user}} -> {:ok, user}
+      {:error, :user, changeset, _} -> {:error, changeset}
+    end
+  end
+
+  def update_user_signin(user, password, login_preference) do
+    changeset =
+      user
+      |> User.change_user_login(login_preference)
+      |> User.validate_current_password(password)
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:user, changeset)
+    |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{user: user}} -> {:ok, user}
+      {:error, :user, changeset, _} -> {:error, changeset}
+    end
+  end
+
+  def initiate_passworded_signin(user, new_password_url_fun) do
+    {encoded_token, user_token} = UserToken.build_email_token(user, "new_password")
+    Repo.insert!(user_token)
+    UserNotifier.deliver_new_password_instructions(user, new_password_url_fun.(encoded_token))
+  end
+
+  def switch_to_password(user, attrs) do
+    changeset =
+      user
+      |> User.password_changeset(attrs, switch_login: true)
+
+    Ecto.Multi.new()
+    |> Multi.update(:user, changeset)
     |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
     |> Repo.transaction()
     |> case do

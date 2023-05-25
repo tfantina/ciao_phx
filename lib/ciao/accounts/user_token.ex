@@ -131,6 +131,7 @@ defmodule Ciao.Accounts.UserToken do
 
   defp days_for_context("confirm"), do: @confirm_validity_in_days
   defp days_for_context("reset_password"), do: @reset_password_validity_in_days
+  defp days_for_context("new_password"), do: @reset_password_validity_in_days
   defp days_for_context("invite"), do: @invite_validity_in_days
   defp days_for_context("sign_in"), do: @sign_in_validity_in_days
 

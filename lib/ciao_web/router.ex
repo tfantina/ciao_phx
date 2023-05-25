@@ -3,13 +3,15 @@ defmodule CiaoWeb.Router do
 
   import CiaoWeb.UserAuth
 
+  @policy "default-src 'self'\ 'self' * blob: data: image;"
+
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
     plug(:fetch_live_flash)
     plug(:put_root_layout, {CiaoWeb.LayoutView, :root})
     plug(:protect_from_forgery)
-    plug(:put_secure_browser_headers, %{"content-security-policy" => "default-src 'self'\ img-src 'self' * data: image;"})
+    plug(:put_secure_browser_headers, %{"content-security-policy" => @policy})
     plug(:fetch_current_user)
   end
 
@@ -113,5 +115,7 @@ defmodule CiaoWeb.Router do
     post("/users/confirm/:token", UserConfirmationController, :update)
     get("/users/sign_in/confirm", UserSessionController, :magic)
     get("/users/sign_in/:token", UserSessionController, :sign_in)
+    get("/users/new_password/:token", UserResetPasswordController, :new_login)
+    put("/users/new_password/:token", UserResetPasswordController, :new_create)
   end
 end

@@ -9,3 +9,30 @@
     <% end %>
     <%= submit "Word", class: "submit"%>
 </.form>
+    <h3>Security Settings</h3>
+
+    <.form let={f} for={@password_form} id="login_preference" phx-change="update_password" phx-submit="save_password">
+        <%= if Ecto.Changeset.get_field(@password_form, :login_preference) == "password" do %>
+            <%= label f, :password, "New password" %>
+            <%= password_input f, :password, required: true %>
+            <%= error_tag f, :password %>
+
+            <%= label f, :password_confirmation, "Confirm new password" %>
+            <%= password_input f, :password_confirmation, required: true %>
+            <%= error_tag f, :password_confirmation %>
+
+        <%= end %>
+        <%= if @password_form.changes.login_preference == "email" and @user.login_preference == "password" do %> 
+
+  <%= label f, :current_password, for: "current_password_for_password" %>
+  <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password" %>
+  <%= error_tag f, :current_password %>
+        <% end %>
+        <%= label do %>
+        <%= radio_button f, :login_preference, "password" %>Password
+        <%= radio_button f, :login_preference, "email" %>Email
+        <% end %>
+
+    </.form>
+
+    <h3>Change Email</h3>

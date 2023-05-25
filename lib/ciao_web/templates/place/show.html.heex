@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12 col-md-3 f-col self-start" id="info">
+    <div class="col-12 col-md-3 f-col self-start px-2 py-3" id="info">
         <.live_component module={Ciao.PlaceLive.AboutComponent} place={@place} relation={@user_relation} user={@user} id="place_info" />
         <.live_component module={Ciao.PlaceLive.UsersComponent} place={@place} id="users_list" />
         <%= if @user_relation.role == "owner" do %>

@@ -33,6 +33,7 @@ defmodule CiaoWeb.UserSessionController do
 
   def sign_in(conn, %{"token" => token}) do
     {token, remember} = URL.get_remember_token(token)
+
     if user = Accounts.get_user_by_token(token, "sign_in") do
       UserAuth.log_in_user(conn, user, %{"remember_me" => remember})
     else

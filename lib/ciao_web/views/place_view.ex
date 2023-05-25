@@ -17,7 +17,7 @@ defmodule CiaoWeb.PlaceView do
         render_img(key, domain)
 
       _ ->
-          ImageWorker.new_resize_images(%{domain: domain, id: img.id}) |> Oban.insert()
+        ImageWorker.new_resize_images(%{domain: domain, id: img.id}) |> Oban.insert()
         render_img(img.key, domain)
     end
   end
@@ -41,4 +41,7 @@ defmodule CiaoWeb.PlaceView do
         nil
     end
   end
+
+  def toggle_btn(nil), do: "New Place"
+  def toggle_btn(_), do: "Close"
 end

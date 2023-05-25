@@ -59,6 +59,28 @@ defmodule Ciao.Accounts.UserNotifier do
   end
 
   @doc """
+  Deliver instructions to create a new password (when switching from 
+  email sign in to password).
+  """
+  def deliver_new_password_instructions(user, url) do
+    deliver(user.email, "New password instructions", """
+
+    ==============================
+
+    Hi #{user.email},
+
+    You are switching your Ciao account to password log in (as opposed to email links).  
+    You can reset your password by visiting the URL below:
+
+    #{url}
+
+    If you don't want to log in with passwords please ignore this email.
+
+    ==============================
+    """)
+  end
+
+  @doc """
   Deliver instructions to update a user email.
   """
   def deliver_update_email_instructions(user, url) do

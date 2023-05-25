@@ -18,7 +18,8 @@ defmodule Ciao.Workers.EmailWorker do
   @multi Multi.new()
 
   @impl Oban.Worker
-  def perform(%Job{args: %{"task" => "sign_in_user", "user_id" => id, "remember_me" => remember}}), do: send_sign_in(id, remember)
+  def perform(%Job{args: %{"task" => "sign_in_user", "user_id" => id, "remember_me" => remember}}),
+    do: send_sign_in(id, remember)
 
   def perform(%Job{args: %{"task" => "invite_user", "invite_id" => id}}),
     do: send_invite_welcome(id)
@@ -38,7 +39,7 @@ defmodule Ciao.Workers.EmailWorker do
   #
   # Job handlers
   #
-  @spec send_sign_in(UUID.t(), String.t) :: :ok
+  @spec send_sign_in(UUID.t(), String.t()) :: :ok
   def send_sign_in(id, remember) do
     @multi
     |> put_multi_value(:user, Accounts.get_user!(id))

@@ -3,7 +3,8 @@ defmodule CiaoWeb.UserResetPasswordController do
 
   alias Ciao.Accounts
 
-  plug :get_user_by_reset_password_token when action in [:edit, :update]
+  plug :get_user_by_reset_password_token
+       when action in [:edit, :update, :new_login, :new_login_create]
 
   def new(conn, _params) do
     render(conn, "new.html")
@@ -29,6 +30,22 @@ defmodule CiaoWeb.UserResetPasswordController do
     render(conn, "edit.html", changeset: Accounts.change_user_password(conn.assigns.user))
   end
 
+  def new_login(conn, _params) do
+    render(conn, "new_password.html", changeset: Accounts.change_user_password(conn.assigns.user))
+  end
+
+  def new_create(conn, %{"user" => user_params}) do
+    case Accounts.switch_to_password(conn.assigns.current_user, user_params) do
+      {:ok, _} ->
+        conn
+        |> put_flash(:info, "Password set! Please sign in.")
+        |> redirect(to: Routes.live_path(conn, CiaoWeb.PageLive.LogIn))
+
+      {:error, changeset} ->
+        render(conn, "edit.html", changeset: changeset)
+    end
+  end
+
   # Do not log in the user after reset password to avoid a
   # leaked token giving the user access to the account.
   def update(conn, %{"user" => user_params}) do
@@ -46,13 +63,18 @@ defmodule CiaoWeb.UserResetPasswordController do
   defp get_user_by_reset_password_token(conn, _opts) do
     %{"token" => token} = conn.params
 
-    if user = Accounts.get_user_by_token(token, "reset_password") do
-      conn |> assign(:user, user) |> assign(:token, token)
-    else
-      conn
-      |> put_flash(:error, "Reset password link is invalid or it has expired.")
-      |> redirect(to: "/")
-      |> halt()
+    cond do
+      user = Accounts.get_user_by_token(token, "reset_password") ->
+        conn |> assign(:user, user) |> assign(:token, token)
+
+      user = Accounts.get_user_by_token(token, "new_password") ->
+        conn |> assign(:user, user) |> assign(:token, token) |> assign(:new_password, true)
+
+      true ->
+        conn
+        |> put_flash(:error, "Reset password link is invalid or it has expired.")
+        |> redirect(to: "/")
+        |> halt()
     end
   end
 end

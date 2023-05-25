@@ -1,22 +1,24 @@
-<button phx-click={:toggle_form}>Create Place</button>
-<%= if @new_place do %>
-    <Forms.place_form changeset={@new_place} />
-<% end %>
-<ul>
-    <%= for place <- @places do %>
-        <li>
-          <%= link place.name, to: Routes.live_path(@socket, CiaoWeb.PlaceLive.Show, place.id) %>
-        </li>
-    <% end %>
-</ul>
-<div class="f-col align-center">
+<div class="f-row">
+    <div class="col-12 col-md-3 py-3">
+        <h3>My Places</h3>
+        <ul>
+            <%= for place <- @places do %>
+                <li>
+                  <%= link place.name, to: Routes.live_path(@socket, CiaoWeb.PlaceLive.Show, place.id) %>
+                </li>
+            <% end %>
+        </ul>
+        <button phx-click={:toggle_form} role="button"><%= toggle_btn(@new_place) %></button>
+        <%= if @new_place do %>
+            <Forms.place_form changeset={@new_place} uploads={@uploads} />
+        <% end %>
+    </div>
+    <div class="col-12 col-md-6">
         <%= for post <- @posts do %>
-        <div class="col-12 col-sm-8 col-md-6">
-                    <.live_component module={PostComponent} id={"post-#{post.id}"} post={post} user={@user}/>
-         </div>
+            <.live_component module={PostComponent} id={"post-#{post.id}"} post={post} user={@user}/>
         <% end %>
         <%= unless Enum.empty?(@posts) do %>
             <a href="#" phx-click={:load_more} phx-value-from={@from}>Load More</a>
         <% end %>
-
+    </div>
 </div>
