@@ -23,4 +23,10 @@ defmodule Ciao.Places.UserRelation do
     |> validate_required(~w[role user_id place_id]a)
     |> unique_constraint([:user_id, :place_id])
   end
+
+  def changeset_update(role, params) do
+    role
+    |> cast(params, [:role])
+    |> validate_inclusion(:role, ~w[owner contributor viewer])
+  end
 end

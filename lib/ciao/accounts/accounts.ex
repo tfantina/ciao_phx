@@ -4,7 +4,7 @@ defmodule Ciao.Accounts do
   """
   alias Ciao.Accounts.{User, UserNotifier, UserToken}
   alias Ciao.Images.ProfilePics
-  alias Ciao.Places.Place
+  alias Ciao.Places.{Place, UserRelation}
   alias Ciao.Repo
   alias Ecto.{Multi, UUID}
 
@@ -31,6 +31,13 @@ defmodule Ciao.Accounts do
   """
   def get_user_by_email(email) when is_binary(email) do
     Repo.get_by(User, email: email)
+  end
+
+  def get_user_role(user_id, place_id) do
+    UserRelation
+    |> from(as: :relation)
+    |> where([relation: r], r.user_id == ^user_id and r.place_id == ^place_id)
+    |> Repo.one()
   end
 
   @doc """

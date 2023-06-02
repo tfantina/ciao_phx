@@ -12,7 +12,7 @@ defmodule Ciao.URL do
   @spec build_magic_url(String.t(), string) :: String.t()
   def build_magic_url(token, remember) do
     root = CiaoWeb.Endpoint.url()
-    root <> "/users/sign_in/#{token}-#{remember(remember)}"
+    root <> "/users/sign_in/#{token}-!-#{remember(remember)}"
   end
 
   defp remember("true"), do: @truval
@@ -20,7 +20,7 @@ defmodule Ciao.URL do
 
   @spec get_remember_token(String.t()) :: tuple()
   def get_remember_token(token_str) do
-    case String.split(token_str, "-") do
+    case String.split(token_str, "-!-") do
       [token, remember] ->
         {token, decode_remember(remember)}
 
