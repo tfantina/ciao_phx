@@ -10,3 +10,14 @@
 
 // extensions
 @import '../js/node_modules/@glidejs/glide/src/assets/sass/glide.core';
+
+@import 'scss/medium/settings';
+@import 'scss/medium/animations/image-loading';
+@import 'scss/medium/animations/pop-upwards';
+@import 'scss/medium/components/anchor-preview';
+@import 'scss/medium/components/file-dragging';
+@import 'scss/medium/themes/bootstrap';
+@import 'scss/medium/components/placeholder';
+@import 'scss/medium/components/toolbar';
+@import 'scss/medium/components/toolbar-form';
+@import 'scss/medium/util/clearfix';

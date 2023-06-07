@@ -24,8 +24,7 @@
             </form>
             <.form for={@changeset} let={f} phx-submit="create_post" >
                 <%= hidden_input f, :place_id, value: @place.id %>
-                <%= label f, :body, "Text" %>
-                <%= text_input f, :body %>
+                <%= textarea f, :body, phx_hook: "textEditorHook", id: "post-body" %>
                 <%= submit "Post" %>
             </.form>
         <% end %>
