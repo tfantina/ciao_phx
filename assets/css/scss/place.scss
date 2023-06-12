@@ -1,0 +1,17 @@
+@use 'globals' as *;
+
+.place-pic {
+    border-radius: 50px;
+    overflow: hidden;
+    margin: 5px 20px 5px 0;
+
+    &--sm {
+        @extend .place-pic;
+        height: 40px;
+        width: 40px;
+    }
+}
+
+.empty {
+    background-color: var(--primary);
+}

@@ -19,6 +19,7 @@ defmodule Ciao.Places do
     Place
     |> join(:left, [p], ur in UserRelation, on: p.id == ur.place_id)
     |> where([_p, ur], ur.user_id == ^user.id)
+    |> preload(place_pics: [:image_variants])
     |> Repo.all()
   end
 

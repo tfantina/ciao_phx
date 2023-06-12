@@ -3,9 +3,7 @@
         <h3>My Places</h3>
         <ul>
             <%= for place <- @places do %>
-                <li>
-                  <%= link place.name, to: Routes.live_path(@socket, CiaoWeb.PlaceLive.Show, place.id) %>
-                </li>
+                <.line place={place} />
             <% end %>
         </ul>
         <button phx-click={:toggle_form} role="button"><%= toggle_btn(@new_place) %></button>
