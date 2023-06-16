@@ -1,12 +1,19 @@
 @use 'globals' as *;
 
 .place-pic {
-    border-radius: 50px;
     overflow: hidden;
     margin: 5px 20px 5px 0;
 
+    &--md {
+        @extend .place-pic;
+        border-radius: 10px;
+        height: 160px;
+        width: 160px;
+    }
+
     &--sm {
         @extend .place-pic;
+        border-radius: 40px;
         height: 40px;
         width: 40px;
     }
