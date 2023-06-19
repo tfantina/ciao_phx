@@ -10,12 +10,12 @@ defmodule Ciao.Posts.Post do
   use Ciao.Schema
 
   schema "posts" do
-    field :body, :string
-    belongs_to :place, Place
-    belongs_to :user, User
+    field(:body, :string)
+    belongs_to(:place, Place)
+    belongs_to(:user, User)
 
-    has_many :comments, Comment, preload_order: [desc: :inserted_at]
-    has_many :images, ImageRecord
+    has_many(:comments, Comment, preload_order: [desc: :inserted_at])
+    has_many(:images, ImageRecord)
 
     timestamps()
   end
@@ -23,5 +23,10 @@ defmodule Ciao.Posts.Post do
   def changeset(params \\ %{}) do
     %Post{}
     |> cast(params, ~w[body user_id place_id]a)
+  end
+
+  def changeset_edit(post, params \\ %{}) do
+    post
+    |> cast(params, ~w[body]a)
   end
 end

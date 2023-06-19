@@ -5,6 +5,7 @@ defmodule CiaoWeb.PlaceView do
   alias Ciao.Workers.ImageWorker
 
   import Ciao.PlacesLive.UploadComponent, only: [uploader: 1]
+  import Ciao.PlacesLive.Place
   require Logger
   use CiaoWeb, :view
 

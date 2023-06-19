@@ -1,31 +1,39 @@
 <div class="row">
-    <div class="col-12 col-md-3 f-col self-start px-2 py-3" id="info">
+    <div class="place-about col-12 col-md-3 f-col self-start px-2 py-3" id="place-about--panel">
         <.live_component module={Ciao.PlaceLive.AboutComponent} place={@place} relation={@user_relation} user={@user} id="place_info" />
-        <.live_component module={Ciao.PlaceLive.UsersComponent} place={@place} id="users_list" />
+        <.live_component module={Ciao.PlaceLive.UsersComponent} place={@place} user={@user} relation={@user_relation}  id="users_list" />
         <%= if @user_relation.role == "owner" do %>
             <.live_component module={Ciao.PlaceLive.InviteComponent} user={@user} place={@place} id="invite_inline" />
         <% end %>
     </div>
-    <div class="col-12 col-md-8 f-col" id="stream">
+    <div class="col-12 col-md-8 f-col pt-2" id="stream">
         <%= if @changeset do %>
             <%= for img <- @uploads.images.entries do %>
-                <%= live_img_preview img %>
-                <%= img.progress %>
-                <progress value={img.progress} max="100"><%= img.progress %>%</progress>
-                <%= for err <- upload_errors(@uploads.images, img) do  %>
-                    <div class="error">
+                <div class="preview-img--card">
+                    <%= live_img_preview img, class: "preview-img--post" %>
+                    <div class="row justify-center">
+                        <div class="col-2">
+                            <%= img.progress %>%
+                        </div>
+                        <div class="col-10">
+                            <progress value={img.progress} max="100"><%= img.progress %>%</progress>
+                        </div>
+                      
+                            <button phx-click="cancel-upload" phx-value-ref={img.ref} aria-label="cancel">&times;</button>
+                    
                     </div>
-                <% end %>
-                <button phx-click="cancel-upload" phx-value-ref={img.ref} aria-label="cancel">&times;</button>
-
+                    <%= for err <- upload_errors(@uploads.images, img) do  %>
+                        <div class="error">
+                        </div>
+                    <% end %>
+                </div>
             <% end %>
-            <form id="photos" phx-change="validate_image">
-                <%= live_file_input @uploads.images %>
+            <form class="mb" id="photos" phx-change="validate_image">
+                <%= live_file_input @uploads.images, class: "mb" %>
             </form>
             <.form for={@changeset} let={f} phx-submit="create_post" >
                 <%= hidden_input f, :place_id, value: @place.id %>
-                <%= label f, :body, "Text" %>
-                <%= text_input f, :body %>
+                <%= textarea f, :body, phx_hook: "textEditorHook", id: "post-body" %>
                 <%= submit "Post" %>
             </.form>
         <% end %>
@@ -36,4 +44,9 @@
     </div>
     <div class="col-2" id="timeline">
     </div>
+</div>
+<div class="mobile-nav--secondary f-row justify-content-between">
+    <button class="mobile-nav--btn" id="place-about--btn" data-panel="place-about--panel">
+        Place Info
+    </button>
 </div>

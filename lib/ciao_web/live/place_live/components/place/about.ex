@@ -31,10 +31,12 @@ defmodule Ciao.PlaceLive.AboutComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="f-col self-center">
+    <div class="f-col">
         <%= if !@place_changeset do %>
+          <h1><%= @place.name %></h1>
+          <div class="self-center">
             <%= display_image(@place) %>
-            <h1><%= @place.name %></h1>
+          </div>
             <div class="info">
                <%= @place.description %>
             </div>
@@ -52,10 +54,22 @@ defmodule Ciao.PlaceLive.AboutComponent do
 
   defp display_image(%{place_pics: [_ | _] = pics}) do
     [i | _] = Enum.reverse(pics)
-    PlaceView.display_image(i, "200x200")
+    assigns = %{}
+
+    ~H"""
+    <div class="place-pic--md">
+      <%= PlaceView.display_image(i, "200x200") %>
+    </div>
+    """
   end
 
-  defp display_image(_), do: ""
+  defp display_image(_) do
+    assigns = %{}
+
+    ~H"""
+      <div class='place-pic--md empty'></div>
+    """
+  end
 
   def handle_event("toggle_form", _, %{assigns: %{place_changeset: nil, place: place}} = socket) do
     socket

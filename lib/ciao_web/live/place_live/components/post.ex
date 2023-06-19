@@ -1,4 +1,7 @@
 defmodule Ciao.PlacesLive.PostComponent do
+  @moduledoc false
+
+  alias Ciao.PlacesLive.PostFormComponent
   alias Ciao.Posts
   alias Ciao.Posts.Comment
   alias Ciao.Repo
@@ -14,6 +17,7 @@ defmodule Ciao.PlacesLive.PostComponent do
     |> assign(:user, assigns.user)
     |> assign(:comment_changeset, Comment.comment_changeset())
     |> assign(:show_comments, false)
+    |> assign(:edit, false)
     |> ok()
   end
 
@@ -21,33 +25,47 @@ defmodule Ciao.PlacesLive.PostComponent do
     ~H"""
       <div class="post d-flex f-col">
       <div class="content row">
-        <%= if @post.images != [] do %>
-          <div class="glide" phx-hook="glideHook" id={"images-post-#{@post.id}"}>
-            <div class="glide__track" data-glide-el="track">
-              <ul class="glide__slides">
-                <%= for img <- @post.images do %>
-                  <li class="glide__slide"><%= PlaceView.display_image(img, "1000x1000") %></li>
-                <% end %>
-              </ul>
-            </div>
-            <%= if length(@post.images) > 1 do %>
-            <div class="glide__arrows f-row justify-between" data-glide-el="controls">
-              <button class="glide__arrow glide__arrow--left" data-glide-dir="<">&#x2190;</button>
-              <button class="glide__arrow glide__arrow--right" data-glide-dir=">">&#x2192;</button>
-            </div>
-             <div class="glide__bullets f-row justify-center" data-glide-el="controls[nav]">
-              <%=  for i <- Enum.into(0..length(@post.images) - 1, []) do %> 
-                <button class="glide__bullet" data-glide-dir={"=#{i}"}></button>
+        <%= if @edit do %> 
+          <.live_component module={PostFormComponent} post={@post} id={"edit-post-#{@post.id}"} />
+        <% else %>
+          <%= if @post.images != [] do %>
+            <div class="glide" phx-hook="glideHook" id={"images-post-#{@post.id}"}>
+              <div class="glide__track" data-glide-el="track">
+                <ul class="glide__slides">
+                  <%= for img <- @post.images do %>
+                    <li class="glide__slide"><%= PlaceView.display_image(img, "1000x1000") %></li>
+                  <% end %>
+                </ul>
+              </div>
+              <%= if length(@post.images) > 1 do %>
+                  <div class="glide__arrows f-row justify-between" data-glide-el="controls">
+                    <button class="glide__arrow glide__arrow--left" data-glide-dir="<">&#x2190;</button>
+                    <button class="glide__arrow glide__arrow--right" data-glide-dir=">">&#x2192;</button>
+                  </div>
+                   <div class="glide__bullets f-row justify-center" data-glide-el="controls[nav]">
+                    <%=  for i <- Enum.into(0..length(@post.images) - 1, []) do %> 
+                      <button class="glide__bullet" data-glide-dir={"=#{i}"}></button>
+                    <% end %>
+                  </div>
               <% end %>
             </div>
-            <% end %>
+          <% end %>
+          <div>
+            <%= raw(@post.body) %>
           </div>
         <% end %>
-          <%= @post.body %>
         </div>
+
         <div class="footer">
           <div class="row d-flex f-row justify-between">
-            <span><%= @post.user.email %> - <%= Timex.from_now(@post.inserted_at) %> ago</span>
+            <span>
+              <%= if @user.id == @post.user_id do %>
+                <a href="javascript:;" phx-click="edit" phx-target={@myself} phx-value-post-id={@post.id}>
+                  Edit
+                </a>
+              <% end %>
+              <%= @post.user.email %> - <%= Timex.from_now(@post.inserted_at) %>
+            </span>
             <%= link to: "#", phx_click: "toggle_comments", phx_target: @myself do %>
               <%= length(@post.comments) %> Comments
             <% end %>
@@ -106,5 +124,11 @@ defmodule Ciao.PlacesLive.PostComponent do
         |> put_flash(:error, "Problem commenting please try again.")
         |> noreply()
     end
+  end
+
+  def handle_event("edit", _, socket) do
+    socket
+    |> assign(:edit, !socket.assigns.edit)
+    |> noreply()
   end
 end

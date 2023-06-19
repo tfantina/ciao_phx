@@ -36,3 +36,29 @@
         border-radius: 8px 8px 8px 0;
     }
 }
+
+.preview-img--post {
+    height: 350px;
+    width: 390px;
+    object-fit: contain;
+}
+
+.preview-img--card {
+    height: 460px;
+    width: 300px;
+
+}
+
+.medium-editor-element {    
+  border-radius: 4px;
+  border: solid 0.5px hsl(205deg, 14%, 68%);
+  height: 160px;
+  overflow: scroll;
+  padding: .5rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#post-body {
+    display: none;
+}

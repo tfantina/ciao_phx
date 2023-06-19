@@ -53,6 +53,13 @@ defmodule Ciao.Posts do
     |> return_post()
   end
 
+  def update_post(post, params) do
+    post
+    |> Post.changeset_edit(params)
+    |> Repo.update()
+    |> return_post()
+  end
+
   defp return_post({:ok, post}), do: {:ok, Repo.preload(post, [:user, :comments])}
   defp return_post({:error, _} = res), do: res
 end
