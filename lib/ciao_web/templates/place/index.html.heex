@@ -1,5 +1,5 @@
 <div class="f-row">
-    <div class="col-12 col-md-3 py-3">
+    <div class="places-list col-12 col-md-3 py-3" id="places-list--panel">
         <h3>My Places</h3>
         <ul>
             <%= for place <- @places do %>
@@ -19,4 +19,9 @@
             <a href="#" phx-click={:load_more} phx-value-from={@from}>Load More</a>
         <% end %>
     </div>
+</div>
+<div class="mobile-nav--secondary f-row">
+    <button class="mobile-nav--btn" id="show-places--btn" data-panel="places-list--panel">
+        Places
+    </button>
 </div>

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&display=swap');
-[data-theme="light"], :root:not([data-theme="dark"]) {
+:root {
     --default_font: 'Montserrat', 'Helvetica Neue', 'Arial', sans-serif;
     --default_font_size: 18px;
     --lg_font_size: 20px;
@@ -8,13 +8,21 @@
     --header_2_font_size: 28px;
     --header_3_font_size: 24px;
     --header_4_font_size: 20px;
+}
 
-    //colors
+//colours 
+
+:root:not([data-theme="dark"]){
 
     --primary: #95FCAE;
     --primary-dark: hsl(153, 40%, 16%);
     --primary-ghost: hsla(156, 8%, 20%, 20%);
+    --secondary: #006E6F;
+    --white: #fff;
+}
 
+:root:not([data-theme="light"])  {
+     --primary: #2CAF4C;
 }
 
 

@@ -9,7 +9,6 @@ const mountGlide = (ctxt) => {
 }
 const glideHook = {
   mounted() {
-    console.log('WOW')
     mountGlide(this)
   }
 }
