@@ -57,3 +57,5 @@ import_config "#{config_env()}.exs"
 config :ex_aws,
   access_key_id: [{:system, "S3_ACCESS_KEY"}, :instance_role],
   secret_access_key: [{:system, "S3_SECRET_KEY"}, :instance_role]
+
+config :ex_heroicons, type: "solid"

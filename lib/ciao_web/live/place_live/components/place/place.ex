@@ -4,12 +4,10 @@ defmodule Ciao.PlacesLive.Place do
   use Phoenix.Component
 
   def line(assigns) do
-    IO.inspect(assigns)
-
     ~H"""
     <li class="row align-center">
         <%= display_image(@place) %>
-        <a href={"/app/places/#{@place.id}"}><%= @place.name %></a>
+        <a href={"/app/places/#{place_slug(@place)}"}><%= @place.name %></a>
     </li>
     """
   end
@@ -31,4 +29,7 @@ defmodule Ciao.PlacesLive.Place do
     </div>
     """
   end
+
+  defp place_slug(%{slug: slug}) when not is_nil(slug), do: slug
+  defp place_slug(%{id: id}), do: id
 end

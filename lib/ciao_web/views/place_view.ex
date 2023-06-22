@@ -6,6 +6,7 @@ defmodule CiaoWeb.PlaceView do
 
   import Ciao.PlacesLive.UploadComponent, only: [uploader: 1]
   import Ciao.PlacesLive.Place
+  import CiaoWeb.FlashHelpers
   require Logger
   use CiaoWeb, :view
 

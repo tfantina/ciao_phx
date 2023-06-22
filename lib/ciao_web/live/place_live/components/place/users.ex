@@ -21,17 +21,31 @@ defmodule Ciao.PlaceLive.UsersComponent do
         <h3>Current users</h3>
         <ul>
             <%= for user <- @users do %>
-                <li class="f-row justify-between">
-                    <span><%= user.email %></span>
-                    <span><%= current_role(user, @place) %></span>
+                <li class="f-row">
+                  <div class="col-7">
+                    <%= user.email %>
+                  </div>
+                  <div class="col-4">
+                    <%= current_role(user, @place) %>
+                  </div>
                     <%= if @relation.role == "owner" && user.id != @user.id do %> 
-                       <a phx-click={:toggle_form} phx-target={@myself} phx-value-user-id={user.id}>Edit</a>
-                    <% end %>
-                    <%= if open_user(@edit_user_role, user) do %>
-                        <button phx-click={:change_user} phx-value-role={"viewer"} phx-target={@myself}>add viewer</button>
-                        <button phx-click={:change_user} phx-value-role={"contributor"} phx-target={@myself}>add contributor</button>
+                      <div class="col-1">
+                       <a phx-click={:toggle_form} phx-target={@myself} phx-value-user-id={user.id}> 
+                          <Heroicons.LiveView.icon name="pencil-square" />
+                       </a>
+                      </div>
                     <% end %>
                 </li>
+                  <%= if open_user(@edit_user_role, user) do %>
+                      <div class="f-row justify-content-between">
+                        <div class="col-5">
+                          <button phx-click={:change_user} phx-value-role={"viewer"} phx-target={@myself} class="btn-sm--tertiary">set viewer</button>
+                        </div>
+                        <div class="col-5">
+                          <button phx-click={:change_user} phx-value-role={"contributor"} phx-target={@myself} class="btn-sm--tertiary">set contributor</button>
+                        </div>
+                      </div>
+                    <% end %>
             <% end %>
         </ul>
     </div>

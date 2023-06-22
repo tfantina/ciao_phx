@@ -1,0 +1,33 @@
+@use 'cardinal/media_queries' as media;
+@use 'globals' as *;
+
+@mixin alert($lite, $dark) {
+    padding: .875rem 1rem .875rem 1rem;
+    border-radius: 4px;
+    background-color: $lite;
+    color: $dark;
+    border: solid 1px $dark;
+}
+
+.alert {
+    width: 100%;
+
+    @include media.media-md {
+        width: 50%;
+        margin: .25rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .alert-success {
+        @include alert(var(--success), var(--success-dark));
+    }
+
+    .alert-info {
+        @include alert(var(--info), var(--info-dark));
+    }
+
+    .alert-error {
+        @include alert(var(--error), var(--error-dark));
+    }
+}

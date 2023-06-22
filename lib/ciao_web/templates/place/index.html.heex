@@ -6,7 +6,9 @@
                 <.line place={place} />
             <% end %>
         </ul>
-        <button phx-click={:toggle_form} role="button"><%= toggle_btn(@new_place) %></button>
+        <div class="f-row justify-content-center">
+            <button phx-click={:toggle_form} role="button" class="col-12 col-sm-8"><%= toggle_btn(@new_place) %></button>
+        </div>
         <%= if @new_place do %>
             <Forms.place_form changeset={@new_place} uploads={@uploads} />
         <% end %>

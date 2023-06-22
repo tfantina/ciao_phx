@@ -28,13 +28,20 @@ defmodule Ciao.Account.SignInComponent do
               as="user">
           <%= label f, "enter your email" %>
           <%= email_input f, :email %>
-          <%= label f, "remember me" %>
-          <%= checkbox f, :remember_me %>
+
+          <div class="f-row align-items-center">
+            <%= label f, "remember me" %>
+            <%= checkbox f, :remember_me %>
+          </div>
+          
           <%= if @show_password do %>
               <%= label f, "password" %>
               <%= password_input f, :password %>
           <% end %>
-          <%= submit "Sign in" %>
+
+          <div class="col-12 col-sm-8 col-md-3">
+            <%= submit "Sign in" %>
+          </div>
       </.form>
     </div>
     """

@@ -15,6 +15,21 @@ defmodule Ciao.Places do
   use Ciao.Query, for: Place
   @multi Multi.new()
 
+  defguard binary_id?(value) when is_binary(value) and byte_size(value) == 16
+
+  def get_id_or_slug(id_or_slug) do
+    Place
+    |> where(^fetch_by_id_or_slug(id_or_slug))
+    |> Repo.one()
+  end
+
+  defp fetch_by_id_or_slug(val) do
+    cond do
+      match?({:ok, _}, Ecto.UUID.cast(val)) -> [id: val]
+      true -> [slug: val]
+    end
+  end
+
   def fetch_all_for_user(user) do
     Place
     |> join(:left, [p], ur in UserRelation, on: p.id == ur.place_id)

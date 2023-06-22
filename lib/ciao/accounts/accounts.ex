@@ -18,6 +18,13 @@ defmodule Ciao.Accounts do
   ## Database getters
 
   @doc """
+  Get all usesrs 
+  """
+  def all do
+    Repo.all(User)
+  end
+
+  @doc """
   Gets a user by email.
 
   ## Examples

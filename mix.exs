@@ -40,6 +40,7 @@ defmodule Ciao.MixProject do
       {:ecto_sql, "~> 3.6"},
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.0"},
+      {:ex_heroicons, "~> 2.0.0"},
       {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
       {:floki, ">= 0.30.0", only: :test},
       {:hackney, "~> 1.9"},
