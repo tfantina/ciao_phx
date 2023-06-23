@@ -1,0 +1,19 @@
+<div>
+    <p>Hey <%= @user.email %>,</p>
+    <p>We've compiled some of the latest posts from you and your friends from Ciao to look back on!</p>
+
+    <ul>
+        <%= for post <- @posts do %>
+            <li>
+                From: <%= post.user.email %> in <strong><%= post.place.name %></strong>:
+                <%= Phoenix.HTML.raw(post.body) %>
+                <span class="from"><strong><%= Timex.from_now(post.inserted_at) %></strong></span>
+            </li>
+        <% end %>
+    </ul>
+
+    Swing by <a href="https://ciaoplace.com">CiaoPlace</a> to see all the latest!
+
+    Unsubscribe button and better formatting coming soon!
+
+</div>

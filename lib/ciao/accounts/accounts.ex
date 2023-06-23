@@ -128,9 +128,8 @@ defmodule Ciao.Accounts do
         {:ok, user}
 
       _ ->
-        res =
-          %User{email: email, login_preference: "email"}
-          |> Repo.insert()
+        %User{email: email, login_preference: "email"}
+        |> Repo.insert()
     end
   end
 

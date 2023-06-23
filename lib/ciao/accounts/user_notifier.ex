@@ -4,12 +4,16 @@ defmodule Ciao.Accounts.UserNotifier do
 
   alias Ciao.Mailer
 
+  use Phoenix.Swoosh, view: CiaoWeb.EmailView, layout: {CiaoWeb.LayoutView, :email}
+
+  @from {"Ciao", "no-reply@ciaoplace.com"}
+
   # Delivers the email using the application mailer.
   defp deliver(recipient, subject, body) do
     email =
       new()
       |> to(recipient)
-      |> from({"Ciao", "no-reply@ciaoplace.com"})
+      |> from(@from)
       |> subject(subject)
       |> text_body(body)
 
@@ -145,5 +149,17 @@ defmodule Ciao.Accounts.UserNotifier do
 
     ==============================
     """)
+  end
+
+  @doc """
+  Weekly digeset
+  """
+  def weekly_digest(user, posts) do
+    new()
+    |> to(user.email)
+    |> from(@from)
+    |> subject("You're weekly Ciao digest!")
+    |> render_body("user_digest.html", %{user: user, posts: posts})
+    |> text_body("wow")
   end
 end

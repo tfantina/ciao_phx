@@ -21,9 +21,15 @@ config :ciao, CiaoWeb.Endpoint,
 config :swoosh, :api_client, false
 
 config :ciao, Oban,
-  plugins: [{Oban.Plugins.Pruner, max_age: 800_000}],
   repo: Ciao.Repo,
-  queues: [images: 1, mailer: 5]
+  queues: [images: 1, mailer: 5],
+  plugins: [
+    {Oban.Plugins.Pruner, max_age: 800_000},
+    {Oban.Plugins.Cron,
+     crontab: [
+       {"0 0 * * 6", Ciao.Workers.EmailWorker, args: %{"task" => "weekly_digest"}}
+     ]}
+  ]
 
 # Configure esbuild (the version is required)
 config :esbuild,
