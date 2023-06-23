@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&display=swap');
 :root {
     --default_font: 'Montserrat', 'Helvetica Neue', 'Arial', sans-serif;
-    --default_font_size: 18px;
-    --lg_font_size: 20px;
-    --info_font_size: 16px;
+    --default_font_size: 1rem;
+    --sm_font_size: .8rem;
+    --lg_font_size: 1.1rem;
+    --info_font_size: .9rem;
     --header_1_font_size: 36px;
     --header_2_font_size: 28px;
     --header_3_font_size: 24px;
@@ -14,15 +15,27 @@
 
 :root:not([data-theme="dark"]){
 
-    --primary: #95FCAE;
-    --primary-dark: hsl(153, 40%, 16%);
-    --primary-ghost: hsla(156, 8%, 20%, 20%);
-    --secondary: #006E6F;
+    --primary: #53be7e;
+    --primary-dark: #347c53;
+    --primary-lite: #bcf0cd;
+    --text-headers: #1F1D41;
+    --text: #031306;
+    --secondary: #FE5F55;
+    --secondary-dark: #9D0B01;
+    --success: #E2FFDA;
+    --success-dark: #425B3B;
+    --info: #E4D7F5;
+    --info-dark: #41127B;
+    --error: #F7CBCB;
+    --error-dark:  #690505;
     --white: #fff;
 }
 
 :root:not([data-theme="light"])  {
-     --primary: #2CAF4C;
+     --primary: #347c53;
+     --primary-dark: #bcf0cd;
+     --text: var(--pimary-dark);
+     --secondary:  #9D0B01;
 }
 
 
@@ -34,7 +47,12 @@ body {
 }
 
 a, h1, h2, h3, h4 {
- color: var(--primary-dark);
+ color: var(--text-headers);
+
+ svg {
+    height: 24px;
+    width: 24px;
+ }
 }
 
 h1 {
@@ -59,6 +77,19 @@ h3 {
 
 
 [role=button], button, input[type=button], input[type=reset], input[type=submit] {
-    background-color: var(--primary-dark);
-    border-color: var(--primary-dark);
+    background-color: var(--primary);
+    border-color: var(--primary);
+
+    &.btn-sm {
+        font-size: calc(var(--sm_font_size) * .8);
+        padding: 4px;
+
+        &--tertiary {
+            @extend .btn-sm;
+           background-color: var(--info);
+           border-color: var(--info-dark);
+        }
+    }
 }
+
+

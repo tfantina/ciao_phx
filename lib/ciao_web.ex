@@ -67,6 +67,13 @@ defmodule CiaoWeb do
     end
   end
 
+  def email do
+    quote do
+      use Phoenix.View,
+        root: "lib/ciao_web/templates"
+    end
+  end
+
   def router do
     quote do
       use Phoenix.Router

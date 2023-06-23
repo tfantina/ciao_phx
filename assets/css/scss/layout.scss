@@ -3,8 +3,8 @@
 
 body > header {
     padding: .5rem;
-    background-color: var(--primary);
-    height: 80px;
+    background-color: var(--primary-lite);
+    height: 55px;
 
     section {
         height: 100%;
@@ -17,7 +17,7 @@ nav {
     height: 100%;
 
     h1 {
-        color: var(--primary-dark);
+        color: var(--text-headers);
         margin: 0px;
     }
 
@@ -31,7 +31,7 @@ nav {
             top: 80px;
             width: 100%;
             z-index: 800;
-            background-color: var(--primary);
+            background-color: var(--primary-lite);
 
             ul {
                 flex-direction: column;
@@ -39,7 +39,7 @@ nav {
                         display: flex;
                         justify-content: center;
                         width: 100%;
-                        border-top: solid 1px var(--primary-ghost);
+                        border-top: solid 1px var(--primary);
                     }
             }
         }
@@ -111,7 +111,7 @@ nav {
 
 submenu {
   display: block;
-  baclground-color: var(--primary);
+  background-color: var(--primary-lite);
   @include media.media-md {
     display: none;
   }

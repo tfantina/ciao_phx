@@ -33,18 +33,20 @@ defmodule Ciao.PlaceLive.AboutComponent do
     ~H"""
     <div class="f-col">
         <%= if !@place_changeset do %>
-          <h1><%= @place.name %></h1>
+          <h1><%= @place.name %>
+            <%= if @relation.role == "owner" do %>
+              <a href="javascript:;" phx-click={:toggle_form} phx-target={@myself}>
+                <Heroicons.LiveView.icon name="pencil-square" />
+              </a>
+            <% end %>
+          </h1>
           <div class="self-center">
             <%= display_image(@place) %>
           </div>
             <div class="info">
                <%= @place.description %>
             </div>
-            <%= if @relation.role == "owner" do %>
-                <div class="update">
-                    <button phx-click={:toggle_form} phx-target={@myself}>Edit</button>
-                </div>
-            <% end %>
+
         <% else %>
             <Forms.place_form changeset={@place_changeset} uploads={@uploads} myself={@myself}/>
         <% end %>

@@ -15,7 +15,9 @@ defmodule CiaoWeb.PlaceLive.Index do
   @impl LiveView
   def mount(_params, session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
-    posts = Posts.fetch_recent(user)
+
+    posts =
+      Posts.fetch_recent(user, preloads: [:user, images: [:image_variants], comments: [:user]])
 
     socket
     |> assign(:user, user)
@@ -107,7 +109,13 @@ defmodule CiaoWeb.PlaceLive.Index do
   end
 
   def handle_event("load_more", _, %{assigns: %{from: from, posts: posts} = assigns} = socket) do
-    posts = posts ++ Posts.fetch_recent(assigns.user, from: from)
+    posts =
+      posts ++
+        Posts.fetch_recent(assigns.user,
+          from: from,
+          preloads: [:user, images: [:image_variants], comments: [:user]]
+        )
+
     [p | _] = Enum.reverse(posts)
 
     socket

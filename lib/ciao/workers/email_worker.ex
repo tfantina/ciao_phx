@@ -2,10 +2,8 @@ defmodule Ciao.Workers.EmailWorker do
   @moduledoc """
   Common functions for sending emails via Oban
   """
-  alias Ciao.Accounts
+  alias Ciao.{Accounts, Mailer, Posts, Repo, URL}
   alias Ciao.Accounts.{Invites, UserNotifier, UserToken}
-  alias Ciao.Repo
-  alias Ciao.URL
   alias Ecto.Multi
   alias Oban.{Job, Worker}
 
@@ -26,6 +24,11 @@ defmodule Ciao.Workers.EmailWorker do
 
   def perform(%Job{args: %{"task" => "add_user", "invite_id" => id}}), do: send_place_welcome(id)
 
+  def perform(%Job{args: %{"task" => "weekly_digest"}}), do: queue_weekly_digests()
+
+  def perform(%Job{args: %{"task" => "generate_digest", "id" => id}}),
+    do: create_and_send_digest(id)
+
   #
   # Job creators
   #
@@ -35,6 +38,8 @@ defmodule Ciao.Workers.EmailWorker do
   def new_email_invite(invite, nil), do: new(%{"task" => "invite_user", "invite_id" => invite.id})
 
   def new_email_invite(invite, _), do: new(%{"task" => "add_user", "invite_id" => invite.id})
+
+  def new_digest_email(user), do: new(%{"task" => "generate_digest", "id" => user.id})
 
   #
   # Job handlers
@@ -89,5 +94,22 @@ defmodule Ciao.Workers.EmailWorker do
       UserNotifier.deliver_user_invite(invite, URL.build_invite_url(encoded_token))
     end)
     |> Repo.transaction()
+  end
+
+  @spec queue_weekly_digests :: [{:ok, Job.t()}]
+  def queue_weekly_digests do
+    users = Accounts.all()
+    Enum.each(users, &(&1 |> new_digest_email() |> Repo.insert()))
+  end
+
+  @spec create_and_send_digest(UUID.t()) :: :ok
+  def create_and_send_digest(user_id) do
+    since = Timex.shift(Timex.now(), days: -7)
+    user = Accounts.get_user!(user_id)
+    posts = Posts.fetch_recent(user_id, since: since, limit: 10, preload: [:user, :place])
+
+    user
+    |> UserNotifier.weekly_digest(posts)
+    |> Ciao.Mailer.deliver()
   end
 end
