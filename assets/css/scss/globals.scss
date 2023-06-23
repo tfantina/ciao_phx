@@ -75,6 +75,11 @@ h3 {
     margin: 0;
 }
 
+.info-text {
+    color: var(--info-dark);
+    font-size: var(--sm_font_size);
+}
+
 
 [role=button], button, input[type=button], input[type=reset], input[type=submit] {
     background-color: var(--primary);

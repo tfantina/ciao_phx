@@ -24,7 +24,21 @@ defmodule Ciao.PlacesLive.PostComponent do
   def render(assigns) do
     ~H"""
       <div class="post d-flex f-col">
-      <div class="content row">
+      <div class="header">
+        <div class="row d-flex f-row justify-between">
+          <span class="info-text">
+            <%= @post.user.email %> - <%= Timex.from_now(@post.inserted_at) %>
+          </span>
+          <span>
+            <%= if @user.id == @post.user_id do %>
+              <a href="javascript:;" phx-click="edit" phx-target={@myself} phx-value-post-id={@post.id} class="info-text">
+                Edit
+              </a>
+            <% end %>
+          </span>
+        </div>
+      </div>
+      <div class="content">
         <%= if @edit do %> 
           <.live_component module={PostFormComponent} post={@post} id={"edit-post-#{@post.id}"} />
         <% else %>
@@ -39,8 +53,8 @@ defmodule Ciao.PlacesLive.PostComponent do
               </div>
               <%= if length(@post.images) > 1 do %>
                   <div class="glide__arrows f-row justify-between" data-glide-el="controls">
-                    <button class="glide__arrow glide__arrow--left" data-glide-dir="<">&#x2190;</button>
-                    <button class="glide__arrow glide__arrow--right" data-glide-dir=">">&#x2192;</button>
+                    <button class="glide__arrow glide__arrow--left" data-glide-dir="<"><Heroicons.LiveView.icon name="arrow-small-left" /></button>
+                    <button class="glide__arrow glide__arrow--right" data-glide-dir=">"><Heroicons.LiveView.icon name="arrow-small-right" /></button>
                   </div>
                    <div class="glide__bullets f-row justify-center" data-glide-el="controls[nav]">
                     <%=  for i <- Enum.into(0..length(@post.images) - 1, []) do %> 
@@ -58,14 +72,6 @@ defmodule Ciao.PlacesLive.PostComponent do
 
         <div class="footer">
           <div class="row d-flex f-row justify-between">
-            <span>
-              <%= if @user.id == @post.user_id do %>
-                <a href="javascript:;" phx-click="edit" phx-target={@myself} phx-value-post-id={@post.id}>
-                  Edit
-                </a>
-              <% end %>
-              <%= @post.user.email %> - <%= Timex.from_now(@post.inserted_at) %>
-            </span>
             <%= link to: "#", phx_click: "toggle_comments", phx_target: @myself do %>
               <%= length(@post.comments) %> Comments
             <% end %>

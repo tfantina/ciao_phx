@@ -31,7 +31,7 @@ defmodule Ciao.PlacesLive.PostFormComponent do
 
   def render(assigns) do
     ~H"""
-    <div>
+    <div style="width: 100%">
     <div class="row">
         <%= for img <- @uploads.images.entries do %>
             <%= live_img_preview img %>

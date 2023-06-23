@@ -1,16 +1,21 @@
 @use 'globals' as *;
 
 .post {
-    border: solid .5px hsl(205deg, 14%, 68%);
-    border-radius: 5px;
-    margin-top: .5rem;
-    margin-bottom: .5rem;
+    border-top: solid .5px var(--primary-lite);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
 
     .content {
         font-size: var(--lg_font_size);
         margin-top: .7rem;
         margin-bottom: .7rem;
         padding: .4rem;
+        width: 100%;
+
+        form {
+            width: 100%;
+        }
     }
 
     .footer {

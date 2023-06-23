@@ -17,7 +17,9 @@ defmodule CiaoWeb.PlaceLive.Index do
     user = Accounts.get_user_by_session_token(session["user_token"])
 
     posts =
-      Posts.fetch_recent(user, preloads: [:user, images: [:image_variants], comments: [:user]])
+      Posts.fetch_recent(user,
+        preload: [user: [:profile_pic], images: [:image_variants], comments: [:user]]
+      )
 
     socket
     |> assign(:user, user)

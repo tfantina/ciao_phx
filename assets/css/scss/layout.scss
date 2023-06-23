@@ -28,7 +28,7 @@ nav {
             display: block;
             position: absolute;
             left: 0;
-            top: 80px;
+            top: 55px;
             width: 100%;
             z-index: 800;
             background-color: var(--primary-lite);
@@ -87,13 +87,13 @@ nav {
 	}
 
 	&:nth-child(1) {
-		top: 30px;
+		top: 20px;
 	}
 	&:nth-child(2) {
-		top: 37px;
+		top: 27px;
 	}
 	&:nth-child(3) {
-		top: 44px;
+		top: 34px;
 	}
 }
 
