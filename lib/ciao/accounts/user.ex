@@ -12,6 +12,7 @@ defmodule Ciao.Accounts.User do
     field(:hashed_password, :string, redact: true)
     field(:confirmed_at, :naive_datetime)
     field(:login_preference, :string, default: "password")
+    field(:notifications, :boolean, default: true)
 
     has_many(:profile_pic, ImageRecord)
     has_many(:user_relations, UserRelation)
@@ -91,6 +92,13 @@ defmodule Ciao.Accounts.User do
       %{changes: %{email: _}} = changeset -> changeset
       %{} = changeset -> add_error(changeset, :email, "did not change")
     end
+  end
+
+  @doc """
+  Users can toggle their notifications
+  """
+  def notification_changeset(user, attrs) do
+    cast(user, attrs, [:notifications])
   end
 
   @doc """

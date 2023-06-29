@@ -18,10 +18,12 @@ defmodule Ciao.Accounts do
   ## Database getters
 
   @doc """
-  Get all usesrs 
+  Get all usesrs who have notifications set to true
   """
-  def all do
-    Repo.all(User)
+  def all_notifications do
+    User
+    |> where([u], u.notifications)
+    |> Repo.all()
   end
 
   @doc """
@@ -147,6 +149,19 @@ defmodule Ciao.Accounts do
   end
 
   ## Settings
+  @doc """
+  Toggle's a user's notifications
+  """
+  def change_user_notifications(user, attrs \\ %{}), do: User.notification_changeset(user, attrs)
+
+  @doc """
+  Update's a user's notification preference
+  """
+  def apply_user_notifications(user, attrs) do
+    user
+    |> User.notification_changeset(attrs)
+    |> Repo.update()
+  end
 
   @doc """
   Returns an `%Ecto.Changeset{}` for changing the user email.

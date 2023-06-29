@@ -1,6 +1,15 @@
 <h1>Settings</h1>
 
 <h3>Change email</h3>
+<.form let={f} for={@notification_changeset} action={Routes.user_settings_path(@conn, :update)} id="update_notifications"}>
+  <%= hidden_input f, :action, name: "action", value: "update_notifications" %>
+  <%= label f, :notifications, "Receive notifications" %>
+  <%= checkbox f, :notifications %>
+
+  <div class="col-10 col-sm-4 col-md-2">
+    <%= submit "Save" %>
+  </div>
+</.form>
 
 <.form let={f} for={@email_changeset} action={Routes.user_settings_path(@conn, :update)} id="update_email">
   <%= if @email_changeset.action do %>
@@ -19,7 +28,7 @@
   <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_email" %>
   <%= error_tag f, :current_password %>
 
-  <div>
+  <div class="col-10 col-sm-4 col-md-2">
     <%= submit "Change email" %>
   </div>
 </.form>
@@ -47,7 +56,7 @@
   <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password" %>
   <%= error_tag f, :current_password %>
 
-  <div>
+  <div class="col-10 col-sm-6 col-md-4">
     <%= submit "Change password" %>
   </div>
 </.form>
@@ -63,8 +72,8 @@
     <%= label f, :current_password, for: "current_password_for_password" %>
     <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password" %>
     <%= error_tag f, :current_password %>
-
-    <div>
+    
+  <div class="col-10 col-sm-5 col-md-3">
       <%= submit "Set login" %>
     </div>
   </.form>
@@ -76,7 +85,7 @@
       <%= checkbox f, :login_preference %>
     </div>
 
-    <div>
+    <div class="col-10 col-sm-6 col-md-4">
       <%= submit "Send confirmation email" %>
     </div>
   </.form>

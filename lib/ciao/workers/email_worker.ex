@@ -98,7 +98,7 @@ defmodule Ciao.Workers.EmailWorker do
 
   @spec queue_weekly_digests :: [{:ok, Job.t()}]
   def queue_weekly_digests do
-    users = Accounts.all()
+    users = Accounts.all_notifications()
     Enum.each(users, &(&1 |> new_digest_email() |> Repo.insert()))
   end
 
@@ -106,10 +106,15 @@ defmodule Ciao.Workers.EmailWorker do
   def create_and_send_digest(user_id) do
     since = Timex.shift(Timex.now(), days: -7)
     user = Accounts.get_user!(user_id)
-    posts = Posts.fetch_recent(user_id, since: since, limit: 10, preload: [:user, :place])
 
-    user
-    |> UserNotifier.weekly_digest(posts)
-    |> Ciao.Mailer.deliver()
+    case Posts.fetch_recent(user_id, since: since, limit: 10, preload: [:user, :place]) do
+      [] ->
+        :ok
+
+      posts ->
+        user
+        |> UserNotifier.weekly_digest(posts)
+        |> Ciao.Mailer.deliver()
+    end
   end
 end

@@ -4,7 +4,6 @@ defmodule CiaoWeb.FlashHelpers do
   use Phoenix.Component
 
   def flash_msg(%{flash: flash} = assigns) when map_size(flash) == 0 do
-    IO.inspect(assigns, label: "SHOPULD MATCH")
     ~H""
   end
 

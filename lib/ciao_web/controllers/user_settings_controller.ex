@@ -10,6 +10,22 @@ defmodule CiaoWeb.UserSettingsController do
     render(conn, "edit.html")
   end
 
+  def update(conn, %{"action" => "update_notifications", "user" => params}) do
+    user = conn.assigns.current_user
+
+    case Accounts.apply_user_notifications(user, params) do
+      {:ok, _user} ->
+        conn
+        |> put_flash(:success, "Your notification preferences have been updated")
+        |> redirect(to: Routes.user_settings_path(conn, :edit))
+
+      {:error, changeset} ->
+        conn
+        |> put_flash(:error, "There was a problem updating your preferences")
+        |> render("edit.html", notification_changeset: changeset)
+    end
+  end
+
   def update(conn, %{"action" => "update_email"} = params) do
     %{"current_password" => password, "user" => user_params} = params
     user = conn.assigns.current_user
@@ -107,6 +123,7 @@ defmodule CiaoWeb.UserSettingsController do
 
     conn
     |> assign(:user, user)
+    |> assign(:notification_changeset, Accounts.change_user_notifications(user))
     |> assign(:email_changeset, Accounts.change_user_email(user))
     |> assign(:password_changeset, Accounts.change_user_password(user))
     |> assign(:login_changeset, Accounts.change_user_login(user))

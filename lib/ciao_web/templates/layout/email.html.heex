@@ -1,1 +1,40 @@
-  <%= @inner_content %>
+ <!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,400;0,700;1,200;1,400;1,700&display=swap');
+      body {
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+      }
+
+      h2 {
+        font-family: 'DM Serif Display', serif;
+        font-size: 20px;
+        color: #1F1D41;
+      }
+
+      @media screen and (min-width: 600px) {
+        h2x {
+          font-size: 32px;
+        }
+      }
+
+      .header-banner {
+        display: flex;
+        justify-content: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        min-height: 50px;
+        width: 100%;
+        background-color: #bcf0cd;
+      }
+    </style>
+  </head>
+  <body>
+    <%= @inner_content %> 
+  </body>
+
+</html>

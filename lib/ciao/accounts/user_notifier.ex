@@ -160,6 +160,5 @@ defmodule Ciao.Accounts.UserNotifier do
     |> from(@from)
     |> subject("You're weekly Ciao digest!")
     |> render_body("user_digest.html", %{user: user, posts: posts})
-    |> text_body("wow")
   end
 end
