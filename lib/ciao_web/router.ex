@@ -29,7 +29,7 @@ defmodule CiaoWeb.Router do
   end
 
   scope "/", CiaoWeb do
-    pipe_through([:browser, :live_pipeline_unauthenticated])
+    pipe_through([:browser, :live_pipeline_unauthenticated, :redirect_if_user_is_authenticated])
 
     live("/", PageLive.Index)
     live("/log_in", PageLive.LogIn)
@@ -106,7 +106,7 @@ defmodule CiaoWeb.Router do
   end
 
   scope "/", CiaoWeb do
-    pipe_through([:browser])
+    pipe_through([:browser, :redirect_if_user_is_authenticated])
 
     delete("/users/log_out", UserSessionController, :delete)
     get("/users/confirm", UserConfirmationController, :new)

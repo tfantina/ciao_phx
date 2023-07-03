@@ -10,6 +10,7 @@ defmodule Ciao.Posts.Post do
   use Ciao.Schema
 
   schema "posts" do
+    field(:title, :string)
     field(:body, :string)
     belongs_to(:place, Place)
     belongs_to(:user, User)
