@@ -68,7 +68,7 @@ defmodule CiaoWeb.PlaceLive.Show do
       {:ok, %{insert_images: images, post: post}} ->
         post =
           post
-          |> Repo.preload(:images)
+          |> Repo.preload(images: [:image_variants])
 
         posts = [post] ++ socket.assigns.posts
 

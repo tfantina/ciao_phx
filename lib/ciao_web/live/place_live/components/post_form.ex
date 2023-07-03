@@ -87,7 +87,7 @@ defmodule Ciao.PlacesLive.PostFormComponent do
       {:ok, %{insert_images: images, post: post}} ->
         post =
           post
-          |> Repo.preload(:images)
+          |> Repo.preload(images: [:image_variants])
 
         socket
         |> put_flash(:success, "Post saved!")
