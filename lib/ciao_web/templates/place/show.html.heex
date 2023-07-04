@@ -9,30 +9,28 @@
     </div>
     <div class="col-12 col-md-8 f-col pt-2" id="stream">
         <%= if @changeset do %>
+            <div class="f-row">
             <%= for img <- @uploads.images.entries do %>
                 <div class="preview-img--card">
                     <%= live_img_preview img, class: "preview-img--post" %>
-                    <div class="row justify-center">
-                        <div class="col-2">
+                        <div class="col-12">
+                            <div class="row justify-between">
                             <%= img.progress %>%
-                        </div>
-                        <div class="col-10">
+                            <a href="javascript:;" role="button" class="btn btn-sm btn-tertiary btn-cancel" phx-click="cancel-upload" phx-value-ref={img.ref} aria-label="cancel">&times;</a>
+                            </div>
                             <progress value={img.progress} max="100"><%= img.progress %>%</progress>
-                        </div>
-                      
-                            <button phx-click="cancel-upload" phx-value-ref={img.ref} aria-label="cancel">&times;</button>
-                    
-                    </div>
+                        </div>    
                     <%= for err <- upload_errors(@uploads.images, img) do  %>
                         <div class="error">
                         </div>
                     <% end %>
                 </div>
             <% end %>
+            </div>
             <form class="mb" id="photos" phx-change="validate_image">
                 <%= live_file_input @uploads.images, class: "mb" %>
             </form>
-            <.form for={@changeset} let={f} phx-submit="create_post" >
+            <.form for={@changeset} let={f} phx-submit="create_post" phx-change="validate_post" phx-update={"ignore"}>
                 <%= hidden_input f, :place_id, value: @place.id %>
                 <%= textarea f, :body, phx_hook: "textEditorHook", id: "post-body" %>
                 <%= submit "Post" %>

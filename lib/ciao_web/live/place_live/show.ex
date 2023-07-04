@@ -49,6 +49,16 @@ defmodule CiaoWeb.PlaceLive.Show do
 
   @impl LiveView
   def handle_event(
+        "validate_post",
+        %{"post" => params},
+        %{assigns: %{changeset: changeset}} = socket
+      ) do
+    socket
+    |> assign(:changeset, Post.changeset(params))
+    |> noreply()
+  end
+
+  def handle_event(
         "create_post",
         %{"post" => params},
         %{assigns: %{user: user, uploads: uploads}} = socket
@@ -84,7 +94,7 @@ defmodule CiaoWeb.PlaceLive.Show do
     end
   end
 
-  def handle_event("validate_image", _params, socket) do
+  def handle_event("validate_image", params, socket) do
     socket
     |> noreply()
   end

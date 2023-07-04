@@ -49,7 +49,7 @@ defmodule Ciao.PlacesLive.PostFormComponent do
         </form>
      </div>
      <div class="row">
-      <.form for={@changeset} let={f} phx-submit="post" phx-target={@myself} >
+      <.form for={@changeset} let={f} phx-submit="post" phx-update="update" phx-target={@myself} >
           <%= textarea f, :body, phx_hook: "textEditorHook", id: "post-body" %>
           <%= submit "Post" %>
       </.form>
@@ -69,8 +69,6 @@ defmodule Ciao.PlacesLive.PostFormComponent do
         %{"post" => params},
         %{assigns: %{post: post, uploads: uploads}} = socket
       ) do
-    IO.inspect(params, label: "WWOOT")
-
     @multi
     |> Multi.put(:user, Accounts.get_user!(post.user_id))
     |> Multi.run(:post, fn _, _ -> Posts.update_post(post, params) end)

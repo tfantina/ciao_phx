@@ -22,6 +22,7 @@
     --text: #031306;
     --secondary: #FE5F55;
     --secondary-dark: #9D0B01;
+    --tertiary: #E4D7F5;
     --success: #E2FFDA;
     --success-dark: #425B3B;
     --info: #E4D7F5;
@@ -97,4 +98,8 @@ h3 {
     }
 }
 
+.btn-tertiary {
+    background-color: var(--tertiary);
+    border: none;
+}
 

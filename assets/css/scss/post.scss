@@ -42,15 +42,20 @@
     }
 }
 
+.post:nth-of-type(1) {
+    border-top: none;
+}
+
 .preview-img--post {
     height: 350px;
     width: 390px;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .preview-img--card {
-    height: 460px;
+    height: 400px;
     width: 300px;
+    margin-bottom: 100px;
 
 }
 
@@ -66,4 +71,10 @@
 
 #post-body {
     display: none;
+}
+
+
+.btn-tertiary.btn-cancel {
+    color: var(--text);
+    padding: .25rem .5rem; 
 }
